@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_today"
+        android:icon="@drawable/ic_menu_today"
+        android:orderInCategory="70"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_today"/>
+    <item
+        android:id="@+id/menu_refresh"
+        android:icon="@drawable/ic_menu_refresh"
+        android:orderInCategory="80"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_refresh"/>
+    <item
+        android:id="@+id/menu_sharing"
+        android:icon="@drawable/ic_menu_share"
+        android:orderInCategory="90"
+        android:title="@string/menu_sharing"/>
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/ic_menu_preferences"
+        android:orderInCategory="100"
+        android:title="@string/menu_settings"/>
+
+</menu>
