@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.presenter;
+package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import java.util.List;
 
@@ -245,8 +245,8 @@ public class SettingsActivity extends PreferenceActivity
 	 * activity is showing a two-pane settings UI.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static class NotificationPreferenceFragment
-			extends PreferenceFragment
+	public static class NotificationPreferenceFragment extends
+			PreferenceFragment
 	{
 		@Override
 		public void onCreate(Bundle savedInstanceState)

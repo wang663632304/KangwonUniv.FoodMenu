@@ -2,15 +2,15 @@ package kr.yudonguk.kangwonuniv.foodmenu.view;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import kr.yudonguk.kangwonuniv.foodmenu.R;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.SettingsActivity;
+import kr.yudonguk.kangwonuniv.foodmenu.activity.SettingsActivity;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
@@ -20,12 +20,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-public class FoodMenuUiView extends UiView
-		implements OnClickListener, OnDateSetListener
+public class FoodMenuUiView extends UiView implements OnClickListener,
+		OnDateSetListener
 {
 	Activity mActivity;
 
@@ -34,15 +33,13 @@ public class FoodMenuUiView extends UiView
 	PagerTitleStrip mPagerTitleStrip;
 	DatePickerDialog mDatePickerDialog;
 
-	public FoodMenuUiView(ViewGroup container, Bundle savedInstanceState,
-			FragmentPagerAdapter pagerAdapter, Activity activity)
+	public FoodMenuUiView(FragmentPagerAdapter pagerAdapter, Activity activity)
 	{
 		mActivity = activity;
 
 		LayoutInflater inflater = mActivity.getLayoutInflater();
 
-		mLayout = inflater.inflate(R.layout.fragment_food_menu, container,
-				false);
+		mLayout = inflater.inflate(R.layout.fragment_food_menu, null);
 
 		mViewPager = (ViewPager) mLayout.findViewById(R.id.pager);
 		mPagerTitleStrip = (PagerTitleStrip) mLayout
@@ -52,9 +49,11 @@ public class FoodMenuUiView extends UiView
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 12);
 
+		int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+				.getTimeInMillis());
+
 		mViewPager.setAdapter(pagerAdapter);
-		mViewPager.setCurrentItem((int) TimeUnit.MILLISECONDS.toDays(calendar
-				.getTimeInMillis()));
+		mViewPager.setCurrentItem(itemIndex);
 
 		// ////////////////////////////////////////
 		mPagerTitleStrip.setOnClickListener(this);
@@ -78,26 +77,28 @@ public class FoodMenuUiView extends UiView
 	{
 		switch (item.getItemId())
 		{
-		case R.id.menu_settings:
+			case R.id.menu_settings:
 			{
 				Intent intent = new Intent(mActivity, SettingsActivity.class);
 				mActivity.startActivity(intent);
 				return true;
 			}
-		case R.id.menu_refresh:
-			Toast.makeText(mActivity, "새로고침", Toast.LENGTH_SHORT).show();
-			return true;
+			case R.id.menu_refresh:
+				Toast.makeText(mActivity, "새로고침", Toast.LENGTH_SHORT).show();
+				return true;
 
-		case R.id.menu_today:
+			case R.id.menu_today:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-				mViewPager.setCurrentItem((int) TimeUnit.MILLISECONDS
-						.toDays(calendar.getTimeInMillis()));
+				int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+						.getTimeInMillis());
+
+				mViewPager.setCurrentItem(itemIndex);
 			}
-			return true;
-		case R.id.menu_sharing:
+				return true;
+			case R.id.menu_sharing:
 			{
 				Intent intent = new Intent(Intent.ACTION_SEND);
 				intent.setType("text/plain");
@@ -106,7 +107,7 @@ public class FoodMenuUiView extends UiView
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager
 						.getCurrentItem()));
 				SimpleDateFormat dateFormat = new SimpleDateFormat(
-						"yyyy.MM.dd E요일 강원대 식단");
+						"yyyy.MM.dd E요일 강원대 식단", Locale.KOREAN);
 
 				intent.putExtra(Intent.EXTRA_SUBJECT,
 						dateFormat.format(calendar.getTime()));
@@ -114,7 +115,7 @@ public class FoodMenuUiView extends UiView
 				mActivity.startActivity(Intent.createChooser(intent,
 						mActivity.getString(R.string.menu_sharing)));
 			}
-			return true;
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -124,7 +125,7 @@ public class FoodMenuUiView extends UiView
 	{
 		switch (view.getId())
 		{
-		case R.id.pager_title_strip:
+			case R.id.pager_title_strip:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager
@@ -147,7 +148,6 @@ public class FoodMenuUiView extends UiView
 
 				mDatePickerDialog.show();
 			}
-			break;
 		}
 	}
 
@@ -161,8 +161,10 @@ public class FoodMenuUiView extends UiView
 			calendar.set(year, month, day);
 			calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-			mViewPager.setCurrentItem((int) TimeUnit.MILLISECONDS
-					.toDays(calendar.getTimeInMillis()));
+			int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+					.getTimeInMillis());
+
+			mViewPager.setCurrentItem(itemIndex);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.presenter;
+package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import android.annotation.TargetApi;
