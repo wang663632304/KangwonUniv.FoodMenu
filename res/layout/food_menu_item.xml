@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:isIndicator="true"
+        android:numStars="1"
+        android:rating="0"
+        android:stepSize="0.1" />
+
+    <TextView
+        android:id="@+id/foodTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ratingBar"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:inputType="none"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="싱글라인 대신에 멀 쓰는거냐구싱글라인 대신에 멀 쓰는거냐구싱글라인 대신에 멀 쓰는거냐구"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

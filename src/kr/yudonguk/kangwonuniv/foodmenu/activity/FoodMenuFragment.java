@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.view.FoodMenuUiView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -138,17 +139,13 @@ public class FoodMenuFragment extends Fragment
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState)
 		{
-			// Create a new TextView and set its text to the fragment's section
-			// number argument value.
-			TextView textView = new TextView(getActivity());
-			textView.setGravity(Gravity.CENTER);
+			View view = inflater.inflate(R.layout.fragment_dormitory_menu,
+					container, false);
 
-			textView.setText(getArguments().getString(
-					ARG_SELARG_SECTION_RESTAURANT)
-					+ Integer.toString(getArguments()
-							.getInt(ARG_SECTION_NUMBER)));
+			TextView textView = (TextView) view.findViewById(R.id.foodTextView);
+			textView.setSelected(true);
 
-			return textView;
+			return view;
 		}
 	}
 }
