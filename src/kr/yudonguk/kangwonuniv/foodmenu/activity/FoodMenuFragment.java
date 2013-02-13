@@ -146,11 +146,11 @@ public class FoodMenuFragment extends Fragment
 		{
 			View view = null;
 
-			for (int i = 0, max = mViewList.size(); i < max; i++)
+			for (View viewItem : mViewList)
 			{
-				if (container.findViewWithTag(i) == null)
+				if (container.findViewById(viewItem.getId()) == null)
 				{
-					view = mViewList.get(i);
+					view = viewItem;
 					break;
 				}
 			}
@@ -158,7 +158,7 @@ public class FoodMenuFragment extends Fragment
 			if (view == null)
 			{
 				view = createPageView(container);
-				view.setTag(mViewList.size());
+				view.setId(view.hashCode());
 				mViewList.add(view);
 			}
 
