@@ -31,7 +31,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="싱글라인 대신에 멀 쓰는거냐구싱글라인 대신에 멀 쓰는거냐구싱글라인 대신에 멀 쓰는거냐구"
+        android:text="음식 이름"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
