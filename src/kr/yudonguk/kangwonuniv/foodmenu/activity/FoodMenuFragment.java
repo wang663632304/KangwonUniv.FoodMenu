@@ -5,20 +5,21 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import kr.yudonguk.kangwonuniv.foodmenu.FoodMenuExpandableListAdapter;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.view.FoodMenuUiView;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.Gravity;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ExpandableListView;
 
 public class FoodMenuFragment extends Fragment
 {
@@ -32,7 +33,7 @@ public class FoodMenuFragment extends Fragment
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	PagerAdapter mPagerAdapter;
 
 	FoodMenuUiView mUiView;
 
@@ -42,9 +43,9 @@ public class FoodMenuFragment extends Fragment
 	{
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+		mPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
-		mUiView = new FoodMenuUiView(mSectionsPagerAdapter, getActivity());
+		mUiView = new FoodMenuUiView(mPagerAdapter, getActivity());
 
 		setHasOptionsMenu(true);
 
@@ -81,10 +82,6 @@ public class FoodMenuFragment extends Fragment
 		@Override
 		public Fragment getItem(int position)
 		{
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-
 			Fragment fragment = new DummySectionFragment();
 
 			Bundle args = new Bundle();
@@ -122,30 +119,31 @@ public class FoodMenuFragment extends Fragment
 		}
 	}
 
+}
+
+/**
+ * A dummy fragment representing a section of the app, but that simply displays
+ * dummy text.
+ */
+class DummySectionFragment extends Fragment
+{
 	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
+	 * The fragment argument representing the section number for this fragment.
 	 */
-	public static class DummySectionFragment extends Fragment
+	public static final String ARG_SELARG_SECTION_RESTAURANT = "section_restaurant";
+	static final String ARG_SECTION_NUMBER = "section_number";
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState)
 	{
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SELARG_SECTION_RESTAURANT = "section_restaurant";
-		static final String ARG_SECTION_NUMBER = "section_number";
+		View view = inflater.inflate(R.layout.fragment_dormitory_menu,
+				container, false);
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState)
-		{
-			View view = inflater.inflate(R.layout.fragment_dormitory_menu,
-					container, false);
+		ExpandableListView listView = (ExpandableListView) view
+				.findViewById(R.id.foodListView);
+		listView.setAdapter(new FoodMenuExpandableListAdapter(inflater));
 
-			TextView textView = (TextView) view.findViewById(R.id.foodTextView);
-			textView.setSelected(true);
-
-			return view;
-		}
+		return view;
 	}
 }

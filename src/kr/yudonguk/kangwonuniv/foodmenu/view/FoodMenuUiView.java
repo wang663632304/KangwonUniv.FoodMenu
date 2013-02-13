@@ -11,7 +11,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -23,8 +23,8 @@ import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-public class FoodMenuUiView extends UiView implements OnClickListener,
-		OnDateSetListener
+public class FoodMenuUiView extends UiView
+		implements OnClickListener, OnDateSetListener
 {
 	Activity mActivity;
 
@@ -33,7 +33,7 @@ public class FoodMenuUiView extends UiView implements OnClickListener,
 	PagerTitleStrip mPagerTitleStrip;
 	DatePickerDialog mDatePickerDialog;
 
-	public FoodMenuUiView(FragmentPagerAdapter pagerAdapter, Activity activity)
+	public FoodMenuUiView(PagerAdapter pagerAdapter, Activity activity)
 	{
 		mActivity = activity;
 
@@ -77,17 +77,17 @@ public class FoodMenuUiView extends UiView implements OnClickListener,
 	{
 		switch (item.getItemId())
 		{
-			case R.id.menu_settings:
+		case R.id.menu_settings:
 			{
 				Intent intent = new Intent(mActivity, SettingsActivity.class);
 				mActivity.startActivity(intent);
 				return true;
 			}
-			case R.id.menu_refresh:
-				Toast.makeText(mActivity, "새로고침", Toast.LENGTH_SHORT).show();
-				return true;
+		case R.id.menu_refresh:
+			Toast.makeText(mActivity, "새로고침", Toast.LENGTH_SHORT).show();
+			return true;
 
-			case R.id.menu_today:
+		case R.id.menu_today:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -97,8 +97,8 @@ public class FoodMenuUiView extends UiView implements OnClickListener,
 
 				mViewPager.setCurrentItem(itemIndex);
 			}
-				return true;
-			case R.id.menu_sharing:
+			return true;
+		case R.id.menu_sharing:
 			{
 				Intent intent = new Intent(Intent.ACTION_SEND);
 				intent.setType("text/plain");
@@ -115,7 +115,7 @@ public class FoodMenuUiView extends UiView implements OnClickListener,
 				mActivity.startActivity(Intent.createChooser(intent,
 						mActivity.getString(R.string.menu_sharing)));
 			}
-				return true;
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -125,7 +125,7 @@ public class FoodMenuUiView extends UiView implements OnClickListener,
 	{
 		switch (view.getId())
 		{
-			case R.id.pager_title_strip:
+		case R.id.pager_title_strip:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager

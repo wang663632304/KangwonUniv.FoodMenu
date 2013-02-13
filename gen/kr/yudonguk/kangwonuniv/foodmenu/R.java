@@ -18,29 +18,35 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
-        public static final int ic_menu_preferences=0x7f020001;
-        public static final int ic_menu_refresh=0x7f020002;
-        public static final int ic_menu_share=0x7f020003;
-        public static final int ic_menu_today=0x7f020004;
+        public static final int expander_close_holo_light=0x7f020000;
+        public static final int expander_open_holo_light=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int ic_menu_preferences=0x7f020003;
+        public static final int ic_menu_refresh=0x7f020004;
+        public static final int ic_menu_share=0x7f020005;
+        public static final int ic_menu_today=0x7f020006;
     }
     public static final class id {
         public static final int container=0x7f090000;
-        public static final int foodTextView=0x7f090004;
-        public static final int menu_refresh=0x7f090009;
-        public static final int menu_settings=0x7f09000b;
-        public static final int menu_sharing=0x7f09000a;
-        public static final int menu_today=0x7f090008;
-        public static final int pager=0x7f090006;
-        public static final int pager_title_strip=0x7f090007;
-        public static final int ratingBar=0x7f090003;
-        public static final int scrollView=0x7f090005;
-        public static final int subtitleTextView=0x7f090001;
-        public static final int titleTextView=0x7f090002;
+        public static final int foodGroupIndicator=0x7f090006;
+        public static final int foodGroupTextView=0x7f090005;
+        public static final int foodListView=0x7f090009;
+        public static final int foodMenuGroup=0x7f090004;
+        public static final int foodMenuIndocator=0x7f090001;
+        public static final int foodTextView=0x7f090008;
+        public static final int menu_refresh=0x7f09000d;
+        public static final int menu_settings=0x7f09000f;
+        public static final int menu_sharing=0x7f09000e;
+        public static final int menu_today=0x7f09000c;
+        public static final int pager=0x7f09000a;
+        public static final int pager_title_strip=0x7f09000b;
+        public static final int ratingBar=0x7f090007;
+        public static final int subtitleTextView=0x7f090002;
+        public static final int titleTextView=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int food_menu_indicator=0x7f030001;
+        public static final int food_menu_group=0x7f030001;
         public static final int food_menu_item=0x7f030002;
         public static final int fragment_dormitory_menu=0x7f030003;
         public static final int fragment_food_menu=0x7f030004;
