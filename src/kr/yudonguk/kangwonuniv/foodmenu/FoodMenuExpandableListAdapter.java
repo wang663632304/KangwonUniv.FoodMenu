@@ -3,7 +3,6 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 import java.util.Date;
 import java.util.Random;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -13,11 +12,8 @@ import android.widget.TextView;
 
 public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 {
-	private LayoutInflater mLayoutInflater;
-
-	public FoodMenuExpandableListAdapter(LayoutInflater layoutInflater)
+	public FoodMenuExpandableListAdapter()
 	{
-		mLayoutInflater = layoutInflater;
 	}
 
 	@Override
@@ -41,8 +37,8 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 
 		if (convertView == null)
 		{
-			convertView = mLayoutInflater.inflate(R.layout.food_menu_item,
-					parent, false);
+			convertView = View.inflate(parent.getContext(),
+					R.layout.food_menu_item, parent);
 		}
 
 		TextView textView = (TextView) convertView
@@ -90,8 +86,8 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	{
 		if (convertView == null)
 		{
-			convertView = mLayoutInflater.inflate(R.layout.food_menu_group,
-					parent, false);
+			convertView = View.inflate(parent.getContext(),
+					R.layout.food_menu_group, null);
 		}
 
 		View indicator = convertView.findViewById(R.id.foodMenuIndocator);
