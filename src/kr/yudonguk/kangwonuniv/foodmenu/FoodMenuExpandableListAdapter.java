@@ -1,10 +1,14 @@
 package kr.yudonguk.kangwonuniv.foodmenu;
 
+import java.util.Date;
+import java.util.Random;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
@@ -32,7 +36,25 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent)
 	{
-		return null;
+		if (groupPosition % 4 == 0)
+			return null;
+
+		if (convertView == null)
+		{
+			convertView = mLayoutInflater.inflate(R.layout.food_menu_item,
+					parent, false);
+		}
+
+		TextView textView = (TextView) convertView
+				.findViewById(R.id.foodTextView);
+		RatingBar ratingBar = (RatingBar) convertView
+				.findViewById(R.id.ratingBar);
+
+		Random random = new Random(new Date().getTime());
+		ratingBar.setRating(random.nextInt(1000) / 1000.0f);
+		textView.setText("" + groupPosition + ":" + childPosition);
+
+		return convertView;
 	}
 
 	@Override

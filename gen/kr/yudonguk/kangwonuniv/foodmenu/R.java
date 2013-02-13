@@ -28,8 +28,8 @@ public final class R {
     }
     public static final class id {
         public static final int container=0x7f090000;
-        public static final int foodGroupIndicator=0x7f090006;
-        public static final int foodGroupTextView=0x7f090005;
+        public static final int foodGroupIndicator=0x7f090005;
+        public static final int foodGroupTextView=0x7f090006;
         public static final int foodListView=0x7f090009;
         public static final int foodMenuGroup=0x7f090004;
         public static final int foodMenuIndocator=0x7f090001;

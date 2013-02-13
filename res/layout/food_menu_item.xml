@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp" >
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+    android:paddingRight="4dp"
+    tools:ignore="HardcodedText" >
 
     <RatingBar
         android:id="@+id/ratingBar"
@@ -19,10 +21,9 @@
     <TextView
         android:id="@+id/foodTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="2dp"
         android:layout_toLeftOf="@+id/ratingBar"
         android:ellipsize="marquee"
         android:focusable="true"
