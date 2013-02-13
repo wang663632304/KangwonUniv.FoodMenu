@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="25dp"
     android:background="#ff99cc00"
-    android:paddingLeft="4dp"
-    android:paddingRight="4dp" >
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
 
     <TextView
         android:id="@+id/subtitleTextView"
