@@ -1,6 +1,8 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +47,7 @@ public class FoodMenuFragment extends Fragment
 		// primary sections of the app.
 		mPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
-		mUiView = new FoodMenuUiView(mPagerAdapter, getActivity());
+		mUiView = new FoodMenuUiView(new TempPagerAdpater(), getActivity());
 
 		setHasOptionsMenu(true);
 
@@ -119,6 +121,92 @@ public class FoodMenuFragment extends Fragment
 		}
 	}
 
+	public class TempPagerAdpater extends PagerAdapter
+	{
+		SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy.MM.dd E",
+				Locale.KOREAN);
+
+		ArrayList<View> mViewList = new ArrayList<View>();
+
+		public TempPagerAdpater()
+		{
+			Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler()
+			{
+
+				@Override
+				public void uncaughtException(Thread thread, Throwable ex)
+				{
+
+				}
+			});
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position)
+		{
+			View view = null;
+
+			for (int i = 0, max = mViewList.size(); i < max; i++)
+			{
+				if (container.findViewWithTag(i) == null)
+				{
+					view = mViewList.get(i);
+					break;
+				}
+			}
+
+			if (view == null)
+			{
+				view = createPageView(container);
+				view.setTag(mViewList.size());
+				mViewList.add(view);
+			}
+
+			container.addView(view);
+
+			return view;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object)
+		{
+			container.removeView((View) object);
+		}
+
+		@Override
+		public int getCount()
+		{
+			return 365 * 60;
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object)
+		{
+			return view == object;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position)
+		{
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(position));
+
+			return mDateFormat.format(calendar.getTime());
+		}
+
+		View createPageView(ViewGroup container)
+		{
+			View view = View.inflate(container.getContext(),
+					R.layout.fragment_dormitory_menu, null);
+
+			ExpandableListView listView = (ExpandableListView) view
+					.findViewById(R.id.foodListView);
+			listView.setAdapter(new FoodMenuExpandableListAdapter());
+
+			return view;
+		}
+	}
+
 }
 
 /**
@@ -142,7 +230,7 @@ class DummySectionFragment extends Fragment
 
 		ExpandableListView listView = (ExpandableListView) view
 				.findViewById(R.id.foodListView);
-		listView.setAdapter(new FoodMenuExpandableListAdapter(inflater));
+		listView.setAdapter(new FoodMenuExpandableListAdapter());
 
 		return view;
 	}
