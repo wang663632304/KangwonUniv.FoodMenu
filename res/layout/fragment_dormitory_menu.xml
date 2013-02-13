@@ -8,4 +8,28 @@
 
     <include layout="@layout/food_menu_item" />
 
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_indicator" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_indicator" />
+
+    <include layout="@layout/food_menu_item" />
+
+    <include layout="@layout/food_menu_item" />
+
 </LinearLayout>

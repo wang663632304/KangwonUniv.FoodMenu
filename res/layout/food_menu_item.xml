@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:isIndicator="true"
         android:numStars="1"
         android:rating="0"
         android:stepSize="0.1" />
