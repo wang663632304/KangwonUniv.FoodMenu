@@ -38,7 +38,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		if (convertView == null)
 		{
 			convertView = View.inflate(parent.getContext(),
-					R.layout.food_menu_item, parent);
+					R.layout.food_menu_item, null);
 		}
 
 		TextView textView = (TextView) convertView
