@@ -1,5 +1,6 @@
 package kr.yudonguk.kangwonuniv.foodmenu.view;
 
+import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -16,6 +17,8 @@ public abstract class UiView
 	public abstract View onLoaded(LayoutInflater inflater, Bundle savedState);
 
 	public abstract void onUnloaded(Bundle outState);
+
+	public abstract void onError(UpdateResult result);
 
 	public abstract void update();
 
