@@ -47,11 +47,11 @@ public class FoodMenuFragment extends Fragment
 		// primary sections of the app.
 		mPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
-		mUiView = new FoodMenuUiView(new TempPagerAdpater(), getActivity());
+		mUiView = new FoodMenuUiView(new TempPagerAdpater());
 
 		setHasOptionsMenu(true);
 
-		return mUiView.getView();
+		return mUiView.onLoaded(inflater, savedInstanceState);
 	}
 
 	@Override
