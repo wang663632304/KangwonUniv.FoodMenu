@@ -3,6 +3,8 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 import java.util.Date;
 import java.util.Random;
 
+import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -12,8 +14,11 @@ import android.widget.TextView;
 
 public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 {
-	public FoodMenuExpandableListAdapter()
+	FoodMenuPresenter mPresenter;
+
+	public FoodMenuExpandableListAdapter(FoodMenuPresenter presenter)
 	{
+		mPresenter = presenter;
 	}
 
 	@Override
@@ -32,7 +37,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent)
 	{
-		if (groupPosition % 4 == 0)
+		if (groupPosition % 2 == 0)
 			return null;
 
 		if (convertView == null)
@@ -48,7 +53,8 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 
 		Random random = new Random(new Date().getTime());
 		ratingBar.setRating(random.nextInt(1000) / 1000.0f);
-		textView.setText("" + groupPosition + ":" + childPosition);
+		textView.setText(mPresenter.getData(groupPosition / 2).subList
+				.get(childPosition));
 
 		return convertView;
 	}
@@ -56,10 +62,10 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	@Override
 	public int getChildrenCount(int groupPosition)
 	{
-		if (groupPosition % 4 == 0)
+		if (groupPosition % 2 == 0)
 			return 0;
 
-		return 4;
+		return mPresenter.getData(groupPosition / 2).subList.size();
 	}
 
 	@Override
@@ -71,7 +77,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	@Override
 	public int getGroupCount()
 	{
-		return 15;
+		return 14;
 	}
 
 	@Override
@@ -93,7 +99,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		View indicator = convertView.findViewById(R.id.foodMenuIndocator);
 		View group = convertView.findViewById(R.id.foodMenuGroup);
 
-		if (groupPosition % 4 == 0)
+		if (groupPosition % 2 == 0)
 		{
 			indicator.setVisibility(View.VISIBLE);
 			group.setVisibility(View.GONE);
@@ -114,7 +120,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 			else
 				imageView.setImageResource(R.drawable.expander_open_holo_light);
 
-			textView.setText("" + groupPosition);
+			textView.setText(mPresenter.getData(groupPosition / 2).name);
 		}
 
 		return convertView;
