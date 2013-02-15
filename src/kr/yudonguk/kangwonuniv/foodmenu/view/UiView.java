@@ -1,7 +1,9 @@
 package kr.yudonguk.kangwonuniv.foodmenu.view;
 
+import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -10,6 +12,12 @@ import android.view.View;
 public abstract class UiView
 {
 	public abstract View getView();
+
+	public abstract View onLoaded(LayoutInflater inflater, Bundle savedState);
+
+	public abstract void onUnloaded(Bundle outState);
+
+	public abstract void update();
 
 	public boolean onCreateOptionsMenu(Menu menu, MenuInflater inflater)
 	{
@@ -23,7 +31,8 @@ public abstract class UiView
 
 	public void onCreateContextMenu(ContextMenu menu, MenuInflater inflater,
 			View view, ContextMenuInfo menuInfo)
-	{}
+	{
+	}
 
 	public boolean onContextItemSelected(MenuItem item)
 	{
