@@ -3,6 +3,8 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 import java.util.Date;
 import java.util.Random;
 
+import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenu;
+import kr.yudonguk.kangwonuniv.foodmenu.presenter.DataReceiver;
 import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
 
 import android.view.View;
@@ -87,7 +89,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
+	public View getGroupView(final int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent)
 	{
 		if (convertView == null)
@@ -109,7 +111,7 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 			indicator.setVisibility(View.GONE);
 			group.setVisibility(View.VISIBLE);
 
-			TextView textView = (TextView) group
+			final TextView textView = (TextView) group
 					.findViewById(R.id.foodGroupTextView);
 			ImageView imageView = (ImageView) group
 					.findViewById(R.id.foodGroupIndicator);
@@ -120,7 +122,14 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 			else
 				imageView.setImageResource(R.drawable.expander_open_holo_light);
 
-			textView.setText(mPresenter.getData(groupPosition / 2).name);
+			mPresenter.getData(groupPosition / 2, new DataReceiver<FoodMenu>()
+			{
+				@Override
+				public void onReceived(int id, FoodMenu data)
+				{
+					textView.setText(data.name);
+				}
+			});
 		}
 
 		return convertView;

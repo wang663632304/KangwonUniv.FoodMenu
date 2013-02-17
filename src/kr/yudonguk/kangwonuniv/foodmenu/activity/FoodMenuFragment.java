@@ -2,6 +2,7 @@ package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.presenter.DataReceiver;
 import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
 import kr.yudonguk.kangwonuniv.foodmenu.view.FoodMenuView;
@@ -30,7 +31,33 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 
 		setHasOptionsMenu(true);
 
-		return mUiView.onLoaded(inflater, savedInstanceState);
+		View view = mUiView.onEnabled(inflater);
+		if (savedInstanceState != null)
+			mUiView.restoreState(savedInstanceState);
+
+		return view;
+	}
+
+	@Override
+	public void onViewStateRestored(Bundle savedInstanceState)
+	{
+		super.onViewStateRestored(savedInstanceState);
+		if (savedInstanceState != null)
+			mUiView.restoreState(savedInstanceState);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState)
+	{
+		super.onSaveInstanceState(outState);
+		mUiView.saveState(outState);
+	}
+
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		mUiView.onDisabled();
 	}
 
 	@Override
@@ -47,7 +74,7 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	}
 
 	@Override
-	public void onUpdated(final UpdateResult result)
+	public void onModelUpdated(final UpdateResult result)
 	{
 		getActivity().runOnUiThread(new Runnable()
 		{
@@ -69,7 +96,20 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	}
 
 	@Override
-	public void setData(FoodMenu data, int id)
+	public void getData(final int id, final DataReceiver<FoodMenu> receiver)
+	{
+		getActivity().runOnUiThread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				receiver.onReceived(id, getData(id));
+			}
+		});
+	}
+
+	@Override
+	public void setData(int id, FoodMenu data)
 	{
 		mUiModel.setData(data, id);
 	}

@@ -17,7 +17,7 @@ public class FoodMenuModel implements UiModel<FoodMenu>
 	@Override
 	public void update()
 	{
-		mPresenter.onUpdated(new UpdateResult());
+		mPresenter.onModelUpdated(new UpdateResult());
 	}
 
 	@Override

@@ -14,9 +14,13 @@ public abstract class UiView
 {
 	public abstract View getView();
 
-	public abstract View onLoaded(LayoutInflater inflater, Bundle savedState);
+	public abstract View onEnabled(LayoutInflater inflater);
 
-	public abstract void onUnloaded(Bundle outState);
+	public abstract void restoreState(Bundle savedState);
+
+	public abstract void saveState(Bundle outState);
+
+	public abstract void onDisabled();
 
 	public abstract void onError(UpdateResult result);
 

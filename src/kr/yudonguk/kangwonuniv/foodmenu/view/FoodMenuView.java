@@ -33,6 +33,8 @@ import android.widget.Toast;
 public class FoodMenuView extends UiView implements OnClickListener,
 		OnDateSetListener
 {
+	static final String CURRENT_PAGE = "CURRENT_PAGE";
+
 	PagerAdapter mPagerAdapter;
 	FoodMenuPresenter mPresenter;
 
@@ -53,36 +55,58 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	}
 
 	@Override
-	public View onLoaded(LayoutInflater inflater, Bundle savedState)
+	public View onEnabled(LayoutInflater inflater)
 	{
-		if (mLayout != null)
-			return mLayout;
+		if (mLayout == null)
+		{
+			mLayout = inflater.inflate(R.layout.fragment_food_menu, null);
 
-		mLayout = inflater.inflate(R.layout.fragment_food_menu, null);
+			mViewPager = (ViewPager) mLayout.findViewById(R.id.pager);
+			mPagerTitleStrip = (PagerTitleStrip) mLayout
+					.findViewById(R.id.pager_title_strip);
 
-		mViewPager = (ViewPager) mLayout.findViewById(R.id.pager);
-		mPagerTitleStrip = (PagerTitleStrip) mLayout
-				.findViewById(R.id.pager_title_strip);
+			mPagerAdapter = new FoodMenuPagerAdapter(mPresenter);
+			mViewPager.setAdapter(mPagerAdapter);
+			mPagerTitleStrip.setOnClickListener(this);
 
-		// ////////////////////////////////////////
-		Calendar calendar = Calendar.getInstance();
-		calendar.set(Calendar.HOUR_OF_DAY, 12);
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-		int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
-				.getTimeInMillis());
-
-		mPagerAdapter = new FoodMenuPagerAdapter(mPresenter);
-		mViewPager.setAdapter(mPagerAdapter);
-		mViewPager.setCurrentItem(itemIndex);
-
-		// ////////////////////////////////////////
-		mPagerTitleStrip.setOnClickListener(this);
+			int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+					.getTimeInMillis());
+			mViewPager.setCurrentItem(itemIndex);
+		}
 
 		return mLayout;
 	}
 
 	@Override
-	public void onUnloaded(Bundle outState)
+	public void restoreState(Bundle savedState)
+	{
+		if (savedState == null)
+			return;
+
+		int itemIndex = savedState.getInt(CURRENT_PAGE, -1);
+		if (itemIndex < 0)
+		{
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.HOUR_OF_DAY, 12);
+
+			itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+					.getTimeInMillis());
+		}
+		mViewPager.setCurrentItem(itemIndex);
+	}
+
+	@Override
+	public void saveState(Bundle outState)
+	{
+		int currentItem = mViewPager.getCurrentItem();
+		outState.putInt(CURRENT_PAGE, currentItem);
+	}
+
+	@Override
+	public void onDisabled()
 	{
 	}
 
