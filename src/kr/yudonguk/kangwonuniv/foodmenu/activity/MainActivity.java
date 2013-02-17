@@ -60,6 +60,8 @@ public class MainActivity extends FragmentActivity
 	@Override
 	public void onRestoreInstanceState(Bundle savedInstanceState)
 	{
+		super.onRestoreInstanceState(savedInstanceState);
+		
 		// Restore the previously serialized current dropdown position.
 		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM))
 		{
@@ -71,6 +73,8 @@ public class MainActivity extends FragmentActivity
 	@Override
 	public void onSaveInstanceState(Bundle outState)
 	{
+		super.onSaveInstanceState(outState);
+		
 		// Serialize the current dropdown position.
 		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
 				.getSelectedNavigationIndex());
