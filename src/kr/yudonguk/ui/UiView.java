@@ -1,6 +1,5 @@
-package kr.yudonguk.kangwonuniv.foodmenu.view;
+package kr.yudonguk.ui;
 
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;

@@ -3,9 +3,9 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 import java.util.Date;
 import java.util.Random;
 
-import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenu;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.DataReceiver;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
+import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.ui.DataReceiver;
 
 import android.view.View;
 import android.view.ViewGroup;

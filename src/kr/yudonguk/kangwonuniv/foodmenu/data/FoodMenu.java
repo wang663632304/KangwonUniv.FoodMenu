@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.model;
+package kr.yudonguk.kangwonuniv.foodmenu.data;
 
 import java.util.ArrayList;
 

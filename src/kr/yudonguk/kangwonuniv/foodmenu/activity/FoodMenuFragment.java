@@ -1,11 +1,11 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
-import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenu;
-import kr.yudonguk.kangwonuniv.foodmenu.model.FoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.DataReceiver;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
-import kr.yudonguk.kangwonuniv.foodmenu.view.FoodMenuView;
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
+import kr.yudonguk.ui.DataReceiver;
+import kr.yudonguk.ui.UpdateResult;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -111,6 +111,6 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	@Override
 	public void setData(int id, FoodMenu data)
 	{
-		mUiModel.setData(data, id);
+		mUiModel.setData(id, data);
 	}
 }

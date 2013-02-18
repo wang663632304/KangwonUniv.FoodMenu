@@ -1,9 +1,10 @@
-package kr.yudonguk.kangwonuniv.foodmenu.model;
+package kr.yudonguk.kangwonuniv.foodmenu.data;
 
 import java.util.ArrayList;
 
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
+import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.ui.UiModel;
+import kr.yudonguk.ui.UpdateResult;
 
 public class FoodMenuModel implements UiModel<FoodMenu>
 {
@@ -36,7 +37,7 @@ public class FoodMenuModel implements UiModel<FoodMenu>
 	}
 
 	@Override
-	public void setData(FoodMenu data, int id)
+	public void setData(int id, FoodMenu data)
 	{
 	}
 

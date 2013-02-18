@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.view;
+package kr.yudonguk.kangwonuniv.foodmenu.ui;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 import kr.yudonguk.kangwonuniv.foodmenu.FoodMenuExpandableListAdapter;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.activity.SettingsActivity;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.FoodMenuPresenter;
-import kr.yudonguk.kangwonuniv.foodmenu.presenter.UpdateResult;
+import kr.yudonguk.ui.UiView;
+import kr.yudonguk.ui.UpdateResult;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;

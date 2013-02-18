@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.presenter;
+package kr.yudonguk.ui;
 
 public interface DataReceiver<Data>
 {
