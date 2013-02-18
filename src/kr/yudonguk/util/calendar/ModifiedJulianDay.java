@@ -3,17 +3,17 @@ package kr.yudonguk.util.calendar;
 import java.util.Calendar;
 
 /**
- * ModifiedJulianDay´Â Immutable °´Ã¼ÀÌ´Ù.
+ * ModifiedJulianDayëŠ” Immutable ê°ì²´ì´ë‹¤.
  */
 public final class ModifiedJulianDay
 {
 	private static final int[] dayOfWeek = { Calendar.WEDNESDAY,
 			Calendar.TUESDAY, Calendar.FRIDAY, Calendar.SATURDAY,
 			Calendar.SUNDAY, Calendar.MONDAY, Calendar.TUESDAY };
-	private static final String[] cheonGan = { "°©", "À»", "º´", "Á¤", "¹«", "±â",
-			"°æ", "½Å", "ÀÓ", "°è" };
-	private static final String[] jiSin = { "ÀÎ", "¹¦", "Áø", "»ç", "¿À", "¹Ì", "½Å",
-			"À¯", "¼ú", "ÇØ", "ÀÚ", "Ãà" };
+	private static final String[] cheonGan = { "ê°‘", "ì„", "ë³‘", "ì •", "ë¬´", "ê¸°",
+			"ê²½", "ì‹ ", "ì„", "ê³„" };
+	private static final String[] jiSin = { "ì¸", "ë¬˜", "ì§„", "ì‚¬", "ì˜¤", "ë¯¸", "ì‹ ",
+			"ìœ ", "ìˆ ", "í•´", "ì", "ì¶•" };
 
 	private final long mModifiedJulianDay;
 	private final GregorianDate mDate;
@@ -131,7 +131,7 @@ public final class ModifiedJulianDay
 		int month = date.month;
 		int day = date.day;
 
-		// 1, 2¿ùÀÏ °æ¿ì Àü³âÀÇ 13, 14¿ù·Î °¡Á¤ÇÏ¿© °è»ê
+		// 1, 2ì›”ì¼ ê²½ìš° ì „ë…„ì˜ 13, 14ì›”ë¡œ ê°€ì •í•˜ì—¬ ê³„ì‚°
 		if (month == 1 || month == 2)
 		{
 			year -= 1;

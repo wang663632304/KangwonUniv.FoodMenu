@@ -3,7 +3,7 @@ package kr.yudonguk.util.calendar;
 import java.security.InvalidParameterException;
 
 /**
- * GregorianDate´Â Immutable °´Ã¼ÀÌ´Ù.
+ * GregorianDateëŠ” Immutable ê°ì²´ì´ë‹¤.
  */
 public class GregorianDate
 {

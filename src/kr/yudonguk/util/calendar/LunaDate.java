@@ -3,7 +3,7 @@ package kr.yudonguk.util.calendar;
 import java.security.InvalidParameterException;
 
 /**
- * LunaDate´Â Immutable °´Ã¼ÀÌ´Ù.
+ * LunaDateëŠ” Immutable ê°ì²´ì´ë‹¤.
  */
 public class LunaDate
 {
@@ -85,21 +85,21 @@ public class LunaDate
 
 		if (maxYearIndex >= 50)
 		{
-			// ÀÌÀü ¹İ¼¼±â ±îÁöÀÇ ÀÏ¼ö ÇÕÀ» ±¸ÇØ¾ßÇÏ¹Ç·Î -1À» ÇÕÇÑ´Ù.
+			// ì´ì „ ë°˜ì„¸ê¸° ê¹Œì§€ì˜ ì¼ìˆ˜ í•©ì„ êµ¬í•´ì•¼í•˜ë¯€ë¡œ -1ì„ í•©í•œë‹¤.
 			int halfACenturyIndex = (maxYearIndex / 50) - 1;
 			totalDay = LunaData.cumulativeDaysOfHalfACentury[halfACenturyIndex];
 			yearIndex = (halfACenturyIndex + 1) * 50;
 		}
 
-		// ÀÌÀü ¿¬µµ ±îÁöÀÇ ÀÏ¼ö¸¦ ÇÕÇØ¾ß ÇÏ¹Ç·Î,
-		// maxYearIndexÀÇ ¿¬µµ´Â ÇÕÇÏÁö ¾Ê´Â´Ù.
+		// ì´ì „ ì—°ë„ ê¹Œì§€ì˜ ì¼ìˆ˜ë¥¼ í•©í•´ì•¼ í•˜ë¯€ë¡œ,
+		// maxYearIndexì˜ ì—°ë„ëŠ” í•©í•˜ì§€ ì•ŠëŠ”ë‹¤.
 		for (; yearIndex < maxYearIndex; yearIndex++)
 		{
 			totalDay += LunaData.daysOfYear[yearIndex];
 		}
 
-		// ÀÌÀü ¿ù ±îÁöÀÇ ÀÏ¼ö¸¦ ÇÕÇØ¾ß ÇÏ¹Ç·Î,
-		// maxMonthIndexÀÇ ¿ùÀº ÇÕÇÏÁö ¾Ê´Â´Ù.
+		// ì´ì „ ì›” ê¹Œì§€ì˜ ì¼ìˆ˜ë¥¼ í•©í•´ì•¼ í•˜ë¯€ë¡œ,
+		// maxMonthIndexì˜ ì›”ì€ í•©í•˜ì§€ ì•ŠëŠ”ë‹¤.
 		final int leapMonthIndex = LunaData.leapMonth[maxYearIndex] - 1;
 		for (int monthIndex = 0, maxMonthIndex = month - 1; monthIndex < maxMonthIndex; monthIndex++)
 		{
@@ -114,10 +114,10 @@ public class LunaDate
 			}
 		}
 
-		// ÇöÀç ´ŞÀÌ À±´ŞÀÏ °æ¿ì À§ÀÇ ÄÚµå¿¡ ÀÇÇØ
-		// À±´Ş Àü´ŞÀÇ ÀÏ¼ö°¡ ÇÕÇØÁöÁö ¾Ê¾ÒÀ¸¹Ç·Î, µû·Î ÇÕÇØÁØ´Ù.
-		// ¿¹¸¦ µé¾î ÇöÀç´ŞÀÌ À±3¿ùÀÏ °æ¿ì, 3¿ùÀº ÇÕ»êµÇÁö ¾Ê¾ÒÀ¸¹Ç·Î,
-		// 3¿ùÀÇ ÀÏ¼ö¸¦ ÇÕ»êÇØÁØ´Ù.
+		// í˜„ì¬ ë‹¬ì´ ìœ¤ë‹¬ì¼ ê²½ìš° ìœ„ì˜ ì½”ë“œì— ì˜í•´
+		// ìœ¤ë‹¬ ì „ë‹¬ì˜ ì¼ìˆ˜ê°€ í•©í•´ì§€ì§€ ì•Šì•˜ìœ¼ë¯€ë¡œ, ë”°ë¡œ í•©í•´ì¤€ë‹¤.
+		// ì˜ˆë¥¼ ë“¤ì–´ í˜„ì¬ë‹¬ì´ ìœ¤3ì›”ì¼ ê²½ìš°, 3ì›”ì€ í•©ì‚°ë˜ì§€ ì•Šì•˜ìœ¼ë¯€ë¡œ,
+		// 3ì›”ì˜ ì¼ìˆ˜ë¥¼ í•©ì‚°í•´ì¤€ë‹¤.
 		if (isLeapMonth)
 			totalDay += LunaData.daysOfMonth[maxYearIndex][leapMonthIndex];
 		totalDay += day;
@@ -174,9 +174,9 @@ public class LunaDate
 
 			totalDay = diff;
 
-			// monthIndex·Î´Â À±´ŞÀ» ÆÇº° ¸øÇÏ¹Ç·Î,
-			// monthIndex°¡ À±´Ş- 1 °ú °°À» ¶§ À±´Ş °Ë»ç ¹×
-			// ±×¿¡ ´ëÇÑ °¨»êÀ» ÇÑ´Ù.
+			// monthIndexë¡œëŠ” ìœ¤ë‹¬ì„ íŒë³„ ëª»í•˜ë¯€ë¡œ,
+			// monthIndexê°€ ìœ¤ë‹¬- 1 ê³¼ ê°™ì„ ë•Œ ìœ¤ë‹¬ ê²€ì‚¬ ë°
+			// ê·¸ì— ëŒ€í•œ ê°ì‚°ì„ í•œë‹¤.
 			if (monthIndex == leapMonthIndex)
 			{
 				diff = totalDay - LunaData.daysOfMonth[yearIndex][12];
@@ -227,24 +227,24 @@ public class LunaDate
 }
 
 /**
- * À½·Â 1583³â 1¿ù ºÎÅÍ 2049³â 12¿ù ±îÁö
+ * ìŒë ¥ 1583ë…„ 1ì›” ë¶€í„° 2049ë…„ 12ì›” ê¹Œì§€
  */
 interface LunaData
 {
 
 	/**
-	 * À½·Â 1583³â 1¿ù 1ÀÏ = ¾ç·Â 1583³â 1¿ù 24ÀÏ
+	 * ìŒë ¥ 1583ë…„ 1ì›” 1ì¼ = ì–‘ë ¥ 1583ë…„ 1ì›” 24ì¼
 	 */
 	ModifiedJulianDay startDay = new ModifiedJulianDay(1583, 1, 24);
 	int startYear = 1583;
 	/**
-	 * À½·Â 2049³â 12¿ù 29 = ¾ç·Â 250³â 1¿ù 22ÀÏ
+	 * ìŒë ¥ 2049ë…„ 12ì›” 29 = ì–‘ë ¥ 250ë…„ 1ì›” 22ì¼
 	 */
 	ModifiedJulianDay endDay = new ModifiedJulianDay(2050, 1, 22);
 	int endYear = 2049;
 
 	/**
-	 * 1583³âÀ» ±âÁØÀ¸·Î 2049³â ±îÁö 50³â ´ç ´©Àû ÀÏ ¼ö
+	 * 1583ë…„ì„ ê¸°ì¤€ìœ¼ë¡œ 2049ë…„ ê¹Œì§€ 50ë…„ ë‹¹ ëˆ„ì  ì¼ ìˆ˜
 	 */
 	int[] cumulativeDaysOfHalfACentury = { 18278, 36528, 54808, 73058, 91338,
 			109588, 127837, 146117, 164367, 170568 };
