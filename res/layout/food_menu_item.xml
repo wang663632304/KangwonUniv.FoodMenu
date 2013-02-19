@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="#0F000000"
     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
     android:paddingRight="4dp"
     tools:ignore="HardcodedText" >
@@ -15,6 +16,7 @@
         android:layout_centerVertical="true"
         android:isIndicator="true"
         android:numStars="1"
+        android:paddingTop="6dp"
         android:rating="0"
         android:stepSize="0.1" />
 

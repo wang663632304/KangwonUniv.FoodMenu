@@ -40,7 +40,8 @@
     <RelativeLayout
         android:id="@+id/foodMenuGroup"
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/listPreferredItemHeight" >
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:paddingRight="4dp" >
 
         <ImageView
             android:id="@+id/foodGroupIndicator"
@@ -63,6 +64,19 @@
             android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
             android:text="그룹이름"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:isIndicator="true"
+            android:numStars="1"
+            android:paddingTop="6dp"
+            android:rating="0"
+            android:stepSize="0.1" />
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import kr.yudonguk.kangwonuniv.foodmenu.FoodMenuExpandableListAdapter;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.activity.SettingsActivity;
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
+import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UiView;
 import kr.yudonguk.ui.UpdateResult;
 import android.app.DatePickerDialog;
@@ -28,10 +30,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class FoodMenuView extends UiView implements OnClickListener,
-		OnDateSetListener
+public class FoodMenuView extends UiView
+		implements OnClickListener, OnDateSetListener
 {
 	static final String CURRENT_PAGE = "CURRENT_PAGE";
 
@@ -107,13 +110,11 @@ public class FoodMenuView extends UiView implements OnClickListener,
 
 	@Override
 	public void onDisabled()
-	{
-	}
+	{}
 
 	@Override
 	public void onError(UpdateResult result)
-	{
-	}
+	{}
 
 	@Override
 	public void update()
@@ -134,21 +135,21 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	{
 		switch (item.getItemId())
 		{
-			case R.id.menu_settings:
+		case R.id.menu_settings:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(context, SettingsActivity.class);
 				context.startActivity(intent);
 				return true;
 			}
-			case R.id.menu_refresh:
+		case R.id.menu_refresh:
 			{
 				Context context = mLayout.getContext();
 				Toast.makeText(context, "새로고침", Toast.LENGTH_SHORT).show();
 			}
-				return true;
+			return true;
 
-			case R.id.menu_today:
+		case R.id.menu_today:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -158,8 +159,8 @@ public class FoodMenuView extends UiView implements OnClickListener,
 
 				mViewPager.setCurrentItem(itemIndex);
 			}
-				return true;
-			case R.id.menu_sharing:
+			return true;
+		case R.id.menu_sharing:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(Intent.ACTION_SEND);
@@ -177,7 +178,7 @@ public class FoodMenuView extends UiView implements OnClickListener,
 				context.startActivity(Intent.createChooser(intent,
 						context.getString(R.string.menu_sharing)));
 			}
-				return true;
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -187,7 +188,7 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	{
 		switch (view.getId())
 		{
-			case R.id.pager_title_strip:
+		case R.id.pager_title_strip:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager
@@ -261,7 +262,7 @@ class FoodMenuPagerAdapter extends PagerAdapter
 
 		if (view == null)
 		{
-			view = createPageView(container);
+			view = createPageView(position, container);
 			view.setId(view.hashCode());
 			mViewList.add(view);
 		}
@@ -307,14 +308,32 @@ class FoodMenuPagerAdapter extends PagerAdapter
 		return mDateFormat.format(calendar.getTime());
 	}
 
-	View createPageView(ViewGroup container)
+	View createPageView(int position, ViewGroup container)
 	{
 		View view = View.inflate(container.getContext(),
 				R.layout.fragment_dormitory_menu, null);
 
-		ExpandableListView listView = (ExpandableListView) view
+		final ExpandableListView listView = (ExpandableListView) view
 				.findViewById(R.id.foodListView);
-		listView.setAdapter(new FoodMenuExpandableListAdapter(mPresenter));
+		final ProgressBar progressBar = (ProgressBar) view
+				.findViewById(R.id.progressBar);
+
+		progressBar.setVisibility(View.VISIBLE);
+
+		mPresenter.getData(position, new DataReceiver<FoodMenu>()
+		{
+
+			@Override
+			public void onReceived(int id, FoodMenu data)
+			{
+				progressBar.setVisibility(View.GONE);
+
+				if (data == null)
+					return;
+
+				listView.setAdapter(new FoodMenuExpandableListAdapter(data));
+			}
+		});
 
 		return view;
 	}
