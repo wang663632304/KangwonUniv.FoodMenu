@@ -1,6 +1,9 @@
 package kr.yudonguk.ui;
 
-public interface DataReceiver<Data>
+public abstract class DataReceiver<Data>
 {
-	void onReceived(int id, Data data);
+	public abstract void onReceived(int id, Data data);
+
+	public void onProgressed(int id, float progress)
+	{}
 }
