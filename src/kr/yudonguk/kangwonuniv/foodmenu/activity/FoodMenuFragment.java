@@ -1,5 +1,6 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
+import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
@@ -21,6 +22,7 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 
 	FoodMenuView mUiView;
 	FoodMenuModel mUiModel;
+	AsyncDataReader<FoodMenu> asyncDataReader;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -28,6 +30,8 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	{
 		mUiView = new FoodMenuView(this);
 		mUiModel = new FoodMenuModel(this);
+
+		asyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
 
 		setHasOptionsMenu(true);
 
@@ -90,22 +94,9 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	}
 
 	@Override
-	public FoodMenu getData(int id)
-	{
-		return mUiModel.getData(id);
-	}
-
-	@Override
 	public void getData(final int id, final DataReceiver<FoodMenu> receiver)
 	{
-		getActivity().runOnUiThread(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				receiver.onReceived(id, getData(id));
-			}
-		});
+		asyncDataReader.execute(id, receiver);
 	}
 
 	@Override
