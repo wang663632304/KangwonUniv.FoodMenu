@@ -17,6 +17,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
@@ -31,7 +32,6 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class FoodMenuView extends UiView
 		implements OnClickListener, OnDateSetListener
@@ -119,8 +119,7 @@ public class FoodMenuView extends UiView
 	@Override
 	public void update()
 	{
-		if (mLayout != null)
-			mLayout.invalidate();
+		mPagerAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -143,10 +142,7 @@ public class FoodMenuView extends UiView
 				return true;
 			}
 		case R.id.menu_refresh:
-			{
-				Context context = mLayout.getContext();
-				Toast.makeText(context, "새로고침", Toast.LENGTH_SHORT).show();
-			}
+			update();
 			return true;
 
 		case R.id.menu_today:
@@ -264,7 +260,18 @@ class FoodMenuPagerAdapter extends PagerAdapter
 		{
 			view = View.inflate(container.getContext(),
 					R.layout.fragment_dormitory_menu, null);
-			view.setId(View.generateViewId());
+
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
+			{
+				int id = view.hashCode();
+				for (; container.findViewById(id) != null; id++)
+					;
+				view.setId(id);
+			}
+			else
+			{
+				view.setId(View.generateViewId());
+			}
 			mViewList.add(view);
 		}
 
@@ -272,6 +279,12 @@ class FoodMenuPagerAdapter extends PagerAdapter
 		container.addView(view);
 
 		return view;
+	}
+
+	@Override
+	public int getItemPosition(Object object)
+	{
+		return POSITION_NONE;
 	}
 
 	@Override
@@ -311,20 +324,32 @@ class FoodMenuPagerAdapter extends PagerAdapter
 		return mDateFormat.format(calendar.getTime());
 	}
 
-	void updateView(View view, int position)
+	void updateView(final View view, final int position)
 	{
 		final ExpandableListView listView = (ExpandableListView) view
 				.findViewById(R.id.foodListView);
 		final ProgressBar progressBar = (ProgressBar) view
 				.findViewById(R.id.progressBar);
 
+		listView.setVisibility(View.INVISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
+
+		// 현재 View에서 사용할 데이터의 id를 저장해 두어
+		// DataReceiver에서 View의 갱신 유무를 판별한다.
+		view.setTag(position);
 
 		mPresenter.getData(position, new DataReceiver<FoodMenu>()
 		{
 			@Override
 			public void onReceived(int id, FoodMenu data)
 			{
+				// View가 재사용 될 경우 다른 DataReceiver에서
+				// View를 갱신을 하므로, View를 갱신하지 않음
+				int currentPosition = (Integer) view.getTag();
+				if (currentPosition != position)
+					return;
+
+				listView.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.GONE);
 
 				if (data == null)
