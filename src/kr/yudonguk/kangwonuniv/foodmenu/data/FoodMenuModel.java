@@ -34,7 +34,7 @@ public class FoodMenuModel implements UiModel<FoodMenu>
 		for (int i = 0, max = random.nextInt(10) + 1; i < max; i++)
 		{
 			Section section = new Section();
-			section.name = "아침";
+			section.name = "아침 : " + id;
 			section.startTime = Section.createTime(11, 00);
 			section.endTime = Section.createTime(13, 00);
 
@@ -65,6 +65,16 @@ public class FoodMenuModel implements UiModel<FoodMenu>
 			}
 
 			data.add(section);
+		}
+
+		try
+		{
+			Thread.sleep(random.nextInt(1000) + 200);
+		}
+		catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return data;
