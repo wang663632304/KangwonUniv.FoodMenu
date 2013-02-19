@@ -262,11 +262,13 @@ class FoodMenuPagerAdapter extends PagerAdapter
 
 		if (view == null)
 		{
-			view = createPageView(position, container);
-			view.setId(view.hashCode());
+			view = View.inflate(container.getContext(),
+					R.layout.fragment_dormitory_menu, null);
+			view.setId(View.generateViewId());
 			mViewList.add(view);
 		}
 
+		updateView(view, position);
 		container.addView(view);
 
 		return view;
@@ -303,16 +305,14 @@ class FoodMenuPagerAdapter extends PagerAdapter
 	public CharSequence getPageTitle(int position)
 	{
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(position));
+		calendar.clear();
+		calendar.add(Calendar.DAY_OF_MONTH, position);
 
 		return mDateFormat.format(calendar.getTime());
 	}
 
-	View createPageView(int position, ViewGroup container)
+	void updateView(View view, int position)
 	{
-		View view = View.inflate(container.getContext(),
-				R.layout.fragment_dormitory_menu, null);
-
 		final ExpandableListView listView = (ExpandableListView) view
 				.findViewById(R.id.foodListView);
 		final ProgressBar progressBar = (ProgressBar) view
@@ -322,7 +322,6 @@ class FoodMenuPagerAdapter extends PagerAdapter
 
 		mPresenter.getData(position, new DataReceiver<FoodMenu>()
 		{
-
 			@Override
 			public void onReceived(int id, FoodMenu data)
 			{
@@ -334,7 +333,5 @@ class FoodMenuPagerAdapter extends PagerAdapter
 				listView.setAdapter(new FoodMenuExpandableListAdapter(data));
 			}
 		});
-
-		return view;
 	}
 }
