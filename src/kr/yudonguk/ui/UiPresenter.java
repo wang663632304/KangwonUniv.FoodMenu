@@ -6,5 +6,7 @@ public interface UiPresenter<Data>
 
 	void getData(int id, DataReceiver<Data> receiver);
 
+	void cancelGetting(int id);
+	
 	void setData(int id, Data data);
 }

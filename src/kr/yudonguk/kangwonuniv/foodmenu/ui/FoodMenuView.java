@@ -291,6 +291,7 @@ class FoodMenuPagerAdapter extends PagerAdapter
 	public void destroyItem(ViewGroup container, int position, Object object)
 	{
 		container.removeView((View) object);
+		mPresenter.cancelGetting(position);
 	}
 
 	@Override

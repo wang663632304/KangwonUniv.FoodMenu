@@ -100,6 +100,12 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	}
 
 	@Override
+	public void cancelGetting(int id)
+	{
+		asyncDataReader.cancel(id);
+	}
+
+	@Override
 	public void setData(int id, FoodMenu data)
 	{
 		mUiModel.setData(id, data);
