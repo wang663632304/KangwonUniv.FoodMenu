@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
@@ -261,6 +262,10 @@ class FoodMenuPagerAdapter extends PagerAdapter
 			view = View.inflate(container.getContext(),
 					R.layout.fragment_dormitory_menu, null);
 
+			final ExpandableListView listView = (ExpandableListView) view
+					.findViewById(R.id.foodListView);
+			listView.setAdapter(new FoodMenuExpandableListAdapter());
+
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
 			{
 				int id = view.hashCode();
@@ -353,10 +358,18 @@ class FoodMenuPagerAdapter extends PagerAdapter
 				listView.setVisibility(View.VISIBLE);
 				progressBar.setVisibility(View.GONE);
 
+				listView.setAnimation(AnimationUtils.loadAnimation(
+						view.getContext(), R.anim.test_animation));
+
 				if (data == null)
 					return;
 
-				listView.setAdapter(new FoodMenuExpandableListAdapter(data));
+				FoodMenuExpandableListAdapter adapter = (FoodMenuExpandableListAdapter) listView
+						.getExpandableListAdapter();
+				adapter.change(data);
+
+				for (int i = 0, max = adapter.getGroupCount(); i < max; i++)
+					listView.collapseGroup(i);
 			}
 		});
 	}

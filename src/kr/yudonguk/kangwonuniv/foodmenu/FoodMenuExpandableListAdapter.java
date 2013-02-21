@@ -19,9 +19,23 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	FoodMenu mFoodMenu;
 
+	public FoodMenuExpandableListAdapter()
+	{
+		this(new FoodMenu());
+	}
+
 	public FoodMenuExpandableListAdapter(FoodMenu foodMenu)
 	{
 		mFoodMenu = foodMenu;
+	}
+
+	public void change(FoodMenu foodMenu)
+	{
+		synchronized (mFoodMenu)
+		{
+			mFoodMenu = foodMenu;
+		}
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -41,30 +55,34 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 			boolean isLastChild, View convertView, ViewGroup parent)
 	{
 		Food food = null;
-		for (Section section : mFoodMenu.sections)
+
+		synchronized (mFoodMenu)
 		{
-			if (groupPosition == 0)
-				return null;
-
-			groupPosition -= HEADER_COUNT; // 헤더 제거
-
-			if (groupPosition < section.size())
+			for (Section section : mFoodMenu.sections)
 			{
-				if (section.get(groupPosition).isGroup())
-				{
-					FoodGroup foodGroup = (FoodGroup) section
-							.get(groupPosition);
-
-					food = foodGroup.get(childPosition);
-					break;
-				}
-				else
-				{
+				if (groupPosition == 0)
 					return null;
-				}
-			}
 
-			groupPosition -= section.size();// 그룹원 제거
+				groupPosition -= HEADER_COUNT; // 헤더 제거
+
+				if (groupPosition < section.size())
+				{
+					if (section.get(groupPosition).isGroup())
+					{
+						FoodGroup foodGroup = (FoodGroup) section
+								.get(groupPosition);
+
+						food = foodGroup.get(childPosition);
+						break;
+					}
+					else
+					{
+						return null;
+					}
+				}
+
+				groupPosition -= section.size();// 그룹원 제거
+			}
 		}
 		if (food == null)
 			return null;
@@ -89,27 +107,30 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	@Override
 	public int getChildrenCount(int groupPosition)
 	{
-		for (Section section : mFoodMenu.sections)
+		synchronized (mFoodMenu)
 		{
-			if (groupPosition == 0)
-				return 0;
-
-			groupPosition -= HEADER_COUNT; // 헤더 제거
-
-			if (groupPosition < section.size())
+			for (Section section : mFoodMenu.sections)
 			{
-				Food food = section.get(groupPosition);
-				if (food.isGroup())
-				{
-					return ((FoodGroup) food).size();
-				}
-				else
-				{
+				if (groupPosition == 0)
 					return 0;
-				}
-			}
 
-			groupPosition -= section.size();// 그룹원 제거
+				groupPosition -= HEADER_COUNT; // 헤더 제거
+
+				if (groupPosition < section.size())
+				{
+					Food food = section.get(groupPosition);
+					if (food.isGroup())
+					{
+						return ((FoodGroup) food).size();
+					}
+					else
+					{
+						return 0;
+					}
+				}
+
+				groupPosition -= section.size();// 그룹원 제거
+			}
 		}
 		return 0;
 	}
@@ -125,10 +146,13 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 	{
 		int groupCount = 0;
 
-		for (Section section : mFoodMenu.sections)
+		synchronized (mFoodMenu)
 		{
-			groupCount += HEADER_COUNT;// 헤더
-			groupCount += section.size();// 그룹원
+			for (Section section : mFoodMenu.sections)
+			{
+				groupCount += HEADER_COUNT;// 헤더
+				groupCount += section.size();// 그룹원
+			}
 		}
 
 		return groupCount;
@@ -150,77 +174,92 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 					R.layout.food_menu_group, null);
 		}
 
+		Section section = null;
+		synchronized (mFoodMenu)
+		{
+			for (Section item : mFoodMenu.sections)
+			{
+				if (groupPosition == 0)
+				{
+					section = item;
+					break;
+				}
+
+				groupPosition -= HEADER_COUNT; // 헤더 제거
+
+				if (groupPosition < item.size())
+				{
+					section = item;
+					groupPosition += 1;
+					break;
+				}
+
+				groupPosition -= item.size();// 그룹원 제거
+			}
+		}
+		if (section == null)
+			return null;
+
 		View indicator = convertView.findViewById(R.id.foodMenuIndocator);
 		View group = convertView.findViewById(R.id.foodMenuGroup);
 
-		for (Section section : mFoodMenu.sections)
+		if (groupPosition == 0)
 		{
-			if (groupPosition == 0)
+			indicator.setVisibility(View.VISIBLE);
+			group.setVisibility(View.GONE);
+
+			TextView titleTextView = (TextView) indicator
+					.findViewById(R.id.titleTextView);
+			TextView subtitleTextView = (TextView) indicator
+					.findViewById(R.id.subtitleTextView);
+
+			titleTextView.setText(section.name);
+			subtitleTextView.setText(timeFormat.format(section.startTime) + "~"
+					+ timeFormat.format(section.endTime));
+		}
+		else
+		{
+			Food food = section.get(groupPosition - 1);
+
+			indicator.setVisibility(View.GONE);
+			group.setVisibility(View.VISIBLE);
+
+			TextView textView = (TextView) group
+					.findViewById(R.id.foodGroupTextView);
+			ImageView imageView = (ImageView) group
+					.findViewById(R.id.foodGroupIndicator);
+			RatingBar ratingBar = (RatingBar) group
+					.findViewById(R.id.ratingBar);
+
+			if (food.isGroup())
 			{
-				indicator.setVisibility(View.VISIBLE);
-				group.setVisibility(View.GONE);
-
-				TextView titleTextView = (TextView) indicator
-						.findViewById(R.id.titleTextView);
-				TextView subtitleTextView = (TextView) indicator
-						.findViewById(R.id.subtitleTextView);
-
-				titleTextView.setText(section.name);
-				subtitleTextView.setText(timeFormat.format(section.startTime)
-						+ "~" + timeFormat.format(section.endTime));
-
-				break;
-			}
-
-			groupPosition -= HEADER_COUNT; // 헤더 제거
-
-			if (groupPosition < section.size())
-			{
-				Food food = section.get(groupPosition);
-
-				indicator.setVisibility(View.GONE);
-				group.setVisibility(View.VISIBLE);
-
-				TextView textView = (TextView) group
-						.findViewById(R.id.foodGroupTextView);
-				ImageView imageView = (ImageView) group
-						.findViewById(R.id.foodGroupIndicator);
-				RatingBar ratingBar = (RatingBar) group
-						.findViewById(R.id.ratingBar);
-
-				if (food.isGroup())
-				{
-					if (isExpanded)
-						imageView
-								.setImageResource(R.drawable.expander_close_holo_light);
-					else
-						imageView
-								.setImageResource(R.drawable.expander_open_holo_light);
-
-					float average = 0.0f;
-					int itemCount = 0;
-					for (Food item : ((FoodGroup) food).foods)
-					{
-						if (item.rate < 0)
-							continue;
-
-						itemCount++;
-						average += item.rate;
-					}
-					average /= itemCount;
-					ratingBar.setRating(average);
-				}
+				if (isExpanded)
+					imageView
+							.setImageResource(R.drawable.expander_close_holo_light);
 				else
-				{
-					imageView.setImageBitmap(null);
-					ratingBar.setRating(food.rate);
-				}
+					imageView
+							.setImageResource(R.drawable.expander_open_holo_light);
 
-				textView.setText(food.name);
-				break;
+				float average = 0.0f;
+				int itemCount = 0;
+				for (Food item : ((FoodGroup) food).foods)
+				{
+					if (item.rate < 0)
+						continue;
+
+					itemCount++;
+					average += item.rate;
+				}
+				average /= itemCount;
+				ratingBar.setRating(average);
+			}
+			else
+			{
+				imageView.setImageBitmap(null);
+				ratingBar.setRating(food.rate);
 			}
 
-			groupPosition -= section.size();// 그룹원 제거
+			textView.setText(food.name);
 		}
 
 		return convertView;
