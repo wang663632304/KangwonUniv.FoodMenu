@@ -13,6 +13,7 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UiView;
 import kr.yudonguk.ui.UpdateResult;
+import android.R.anim;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
@@ -340,6 +342,9 @@ class FoodMenuPagerAdapter extends PagerAdapter
 		listView.setVisibility(View.INVISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
 
+		listView.setAnimation(AnimationUtils.loadAnimation(view.getContext(),
+				R.anim.invisible));
+
 		// 현재 View에서 사용할 데이터의 id를 저장해 두어
 		// DataReceiver에서 View의 갱신 유무를 판별한다.
 		view.setTag(position);
@@ -359,7 +364,7 @@ class FoodMenuPagerAdapter extends PagerAdapter
 				progressBar.setVisibility(View.GONE);
 
 				listView.setAnimation(AnimationUtils.loadAnimation(
-						view.getContext(), R.anim.test_animation));
+						view.getContext(), android.R.anim.fade_in));
 
 				if (data == null)
 					return;

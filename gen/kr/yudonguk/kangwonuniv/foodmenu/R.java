@@ -9,7 +9,7 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 
 public final class R {
     public static final class anim {
-        public static final int test_animation=0x7f040000;
+        public static final int invisible=0x7f040000;
     }
     public static final class array {
         public static final int pref_example_list_titles=0x7f070001;
