@@ -34,8 +34,8 @@ public class DummyFoodMenuModel implements FoodMenuModel
 		{
 			Section section = new Section();
 			section.name = "아침 : " + id;
-			section.startTime = Section.createTime(11, 00);
-			section.endTime = Section.createTime(13, 00);
+			section.setStartTime(11, 00);
+			section.setEndTime(13, 00);
 
 			for (int j = 0, jMax = random.nextInt(10) + 1; j < jMax; j++)
 			{

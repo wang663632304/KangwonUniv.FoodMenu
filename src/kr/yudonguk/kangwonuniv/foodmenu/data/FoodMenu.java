@@ -2,14 +2,30 @@ package kr.yudonguk.kangwonuniv.foodmenu.data;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.TimeZone;
 
 public class FoodMenu
 {
 	public static class Food
 	{
-		public String name = "";
-		public float rate = -1.0f;
+		public String name;
+		public float rate;
+
+		public Food()
+		{
+			this("");
+		}
+
+		public Food(String name)
+		{
+			this(name, -1.0f);
+		}
+
+		public Food(String name_, float rate_)
+		{
+			name = name_;
+			rate = rate_;
+		}
 
 		public boolean isGroup()
 		{
@@ -19,7 +35,17 @@ public class FoodMenu
 
 	public static class FoodGroup extends Food
 	{
-		public ArrayList<Food> foods = new ArrayList<Food>();
+		public final ArrayList<Food> foods = new ArrayList<Food>();
+
+		public FoodGroup()
+		{
+			this("");
+		}
+
+		public FoodGroup(String name)
+		{
+			super(name);
+		}
 
 		@Override
 		public boolean isGroup()
@@ -45,10 +71,25 @@ public class FoodMenu
 
 	public static class Section
 	{
-		public String name = "";
-		public Date startTime = createTime(0, 0);
-		public Date endTime = createTime(0, 0);
-		public ArrayList<Food> foods = new ArrayList<FoodMenu.Food>();
+		public String name;
+		public final Calendar startTime = Calendar.getInstance();
+		public final Calendar endTime = Calendar.getInstance();
+		public final ArrayList<Food> foods = new ArrayList<FoodMenu.Food>();
+
+		private static final TimeZone DEFAULT_TIME_ZONE = TimeZone
+				.getTimeZone("Asia/Seoul");
+
+		public Section()
+		{
+			this("");
+		}
+
+		public Section(String name_)
+		{
+			name = name_;
+			setStartTime(0, 0);
+			setEndTime(0, 0);
+		}
 
 		public void add(Food food)
 		{
@@ -65,15 +106,18 @@ public class FoodMenu
 			return foods.size();
 		}
 
-		public static Date createTime(int hour, int minute)
+		public void setStartTime(int hour, int minute)
 		{
-			Calendar calendar = Calendar.getInstance();
-			calendar.clear();
-			
-			calendar.set(Calendar.HOUR_OF_DAY, hour);
-			calendar.set(Calendar.MINUTE, minute);
+			startTime.setTimeZone(DEFAULT_TIME_ZONE);
+			startTime.set(Calendar.HOUR_OF_DAY, hour);
+			startTime.set(Calendar.MINUTE, minute);
+		}
 
-			return calendar.getTime();
+		public void setEndTime(int hour, int minute)
+		{
+			startTime.setTimeZone(DEFAULT_TIME_ZONE);
+			endTime.set(Calendar.HOUR_OF_DAY, hour);
+			endTime.set(Calendar.MINUTE, minute);
 		}
 	}
 
