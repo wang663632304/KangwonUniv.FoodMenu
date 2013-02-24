@@ -1,9 +1,13 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
+import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.BaekRokFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.CheonJiFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.DummyFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.TaeBaekFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.DataReceiver;
@@ -30,7 +34,42 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 			Bundle savedInstanceState)
 	{
 		mUiView = new FoodMenuView(this);
-		mUiModel = new BaekRokFoodMenuModel(this);
+
+		Bundle bundle = getArguments();
+		if (bundle != null)
+		{
+			String restaurantName = bundle.getString(ARG_RESTAURANT_NAME);
+
+			final String[] restaurantList = getResources().getStringArray(
+					R.array.restaurant_list);
+			int index = 0;
+			for (String restaurant : restaurantList)
+			{
+				if (restaurant.equals(restaurantName))
+					break;
+				index++;
+			}
+
+			switch (index)
+			{
+				case 0:
+					mUiModel = new BaekRokFoodMenuModel(this);
+					break;
+				case 1:
+					mUiModel = new CheonJiFoodMenuModel(this);
+					break;
+				case 2:
+					mUiModel = new TaeBaekFoodMenuModel(this);
+				case 3:
+				case 4:
+				case 5:
+			}
+		}
+
+		if (mUiModel == null)
+		{
+			mUiModel = new DummyFoodMenuModel(this);
+		}
 
 		asyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
 
