@@ -1,6 +1,6 @@
 package kr.yudonguk.kangwonuniv.foodmenu;
 
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
@@ -16,7 +16,6 @@ import android.widget.TextView;
 public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 {
 	final int HEADER_COUNT = 1;
-	SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 	FoodMenu mFoodMenu;
 
 	public FoodMenuExpandableListAdapter()
@@ -214,8 +213,29 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 					.findViewById(R.id.subtitleTextView);
 
 			titleTextView.setText(section.name);
-			subtitleTextView.setText(timeFormat.format(section.startTime) + "~"
-					+ timeFormat.format(section.endTime));
+
+			int startHour = section.startTime.get(Calendar.HOUR_OF_DAY);
+			int startMinute = section.startTime.get(Calendar.HOUR_OF_DAY);
+			int endHour = section.endTime.get(Calendar.HOUR_OF_DAY);
+			int endMinute = section.endTime.get(Calendar.MINUTE);
+
+			if (startHour == 0 && startMinute == 0 && endHour == 0
+					&& endMinute == 0)
+			{
+				subtitleTextView.setText("");
+			}
+			else
+			{
+				StringBuilder subtitle = new StringBuilder();
+				subtitle.append(startHour);
+				subtitle.append(":");
+				subtitle.append(startMinute);
+				subtitle.append("~");
+				subtitle.append(endHour);
+				subtitle.append(":");
+				subtitle.append(endMinute);
+				subtitleTextView.setText(subtitle);
+			}
 		}
 		else
 		{
