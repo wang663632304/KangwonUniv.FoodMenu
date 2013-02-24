@@ -3,11 +3,11 @@ package kr.yudonguk.kangwonuniv.foodmenu.data;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuCoopFoodMenuPraser;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 
-public class BaekRokFoodMenuModel extends KnuCoopFoodMenuModel
+public class TaeBaekFoodMenuModel extends KnuCoopFoodMenuModel
 {
 	final FoodMenuPresenter mPresenter;
 
-	public BaekRokFoodMenuModel(FoodMenuPresenter presenter)
+	public TaeBaekFoodMenuModel(FoodMenuPresenter presenter)
 	{
 		mPresenter = presenter;
 	}
@@ -25,6 +25,6 @@ public class BaekRokFoodMenuModel extends KnuCoopFoodMenuModel
 	@Override
 	public String getKnuCoopUrl()
 	{
-		return KnuCoopFoodMenuPraser.BAEK_ROK_URL;
+		return KnuCoopFoodMenuPraser.TAE_BAEK_URL;
 	}
 }
