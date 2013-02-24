@@ -11,7 +11,6 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;
 import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu.Week;
-import kr.yudonguk.util.ArrayIterator;
 import kr.yudonguk.util.StringUtil;
 
 import org.htmlcleaner.CleanerProperties;
@@ -117,90 +116,6 @@ public class KnuCoopFoodMenuPraser implements FoodMenuPraser
 				FoodGroup foodGroup = new FoodGroup(foodGroupName);
 				String rawFoodList = tableCellItor.next();
 				rawFoodList = rawFoodList == null ? "" : rawFoodList;
-
-				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
-						true))
-				{
-					String name = StringUtil.removeBracket(foodName, -1).trim();
-					if (name.isEmpty())
-						continue;
-
-					foodGroup.add(new Food(name));
-				}
-
-				section.add(foodGroup);
-			}
-		}
-
-		Section holidySection = new Section();
-		holidySection.add(new Food("휴무"));
-		result.get(Week.Sunday).add(holidySection);
-
-		return result;
-	}
-
-	private WeekFoodMenu toFoodMenu(TagNode tableNode)
-	{
-		TagNode[] childNodes = tableNode.getChildTags();
-		if (childNodes == null || childNodes.length == 0)
-			return null;
-
-		WeekFoodMenu result = new WeekFoodMenu();
-
-		Iterator<TagNode> tableRowItor = new ArrayIterator<TagNode>(childNodes);
-		tableRowItor.next(); // 테이블 첫 번째 행 제거
-
-		String sectionName = "";
-		int repeatReuseSectionNameCount = 0;
-		for (; tableRowItor.hasNext();)
-		{
-			TagNode tableRow = tableRowItor.next();
-			TagNode[] tableCells = tableRow.getChildTags();
-			Iterator<TagNode> tableCellItor = new ArrayIterator<TagNode>(
-					tableCells);
-
-			if (repeatReuseSectionNameCount <= 0 && tableCellItor.hasNext())
-			{
-				String rowspanAttribute = tableCells[0]
-						.getAttributeByName("rowspan");
-				repeatReuseSectionNameCount = rowspanAttribute == null ? 0
-						: Integer.parseInt(rowspanAttribute);
-				sectionName = tableCellItor.next().getText().toString();
-				sectionName = sectionName.trim();
-			}
-			repeatReuseSectionNameCount -= 1;
-
-			if (!tableCellItor.hasNext())
-				continue;
-
-			String foodGroupName = tableCellItor.next().getText().toString();
-			foodGroupName = foodGroupName.trim();
-
-			String rawFoodList = "";
-			int repeatReuseRawFoodListCount = 0;
-			// 월~토까지의 식단을 작성하므로, 6개의 FoodMenu를 작성한다.
-			for (int i = Week.Monday.value; i <= Week.Saturday.value; i++)
-			{
-				FoodMenu foodMenu = result.foodMenus[i];
-				Section section = findSection(sectionName, foodMenu.sections);
-				if (section == null)
-				{
-					section = new Section(sectionName);
-					foodMenu.add(section);
-				}
-
-				FoodGroup foodGroup = new FoodGroup(foodGroupName);
-
-				if (repeatReuseRawFoodListCount <= 0 && tableCellItor.hasNext())
-				{
-					TagNode foodNameCell = tableCellItor.next();
-					String colspanAttribute = foodNameCell
-							.getAttributeByName("colspan");
-					repeatReuseRawFoodListCount = colspanAttribute == null ? 0
-							: Integer.parseInt(colspanAttribute);
-					rawFoodList = foodNameCell.getText().toString();
-				}
-				repeatReuseRawFoodListCount -= 1;
 
 				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
 						true))
