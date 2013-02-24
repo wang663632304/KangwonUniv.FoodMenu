@@ -13,7 +13,6 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UiView;
 import kr.yudonguk.ui.UpdateResult;
-import android.R.anim;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
@@ -30,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
@@ -41,13 +39,13 @@ public class FoodMenuView extends UiView
 {
 	static final String CURRENT_PAGE = "CURRENT_PAGE";
 
-	PagerAdapter mPagerAdapter;
-	FoodMenuPresenter mPresenter;
+	private PagerAdapter mPagerAdapter;
+	private FoodMenuPresenter mPresenter;
 
-	View mLayout;
-	ViewPager mViewPager;
-	PagerTitleStrip mPagerTitleStrip;
-	DatePickerDialog mDatePickerDialog;
+	private View mLayout;
+	private ViewPager mViewPager;
+	private PagerTitleStrip mPagerTitleStrip;
+	private DatePickerDialog mDatePickerDialog;
 
 	public FoodMenuView(FoodMenuPresenter presenter)
 	{
@@ -234,11 +232,18 @@ public class FoodMenuView extends UiView
 
 class FoodMenuPagerAdapter extends PagerAdapter
 {
-	SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy.MM.dd E",
-			Locale.KOREAN);
-	ArrayList<View> mViewList = new ArrayList<View>();
+	private static class PageViewHolder
+	{
+		public ExpandableListView expandableListView = null;
+		public ProgressBar progressBar = null;
+		public int position = -1;
+	}
 
-	FoodMenuPresenter mPresenter;
+	private final SimpleDateFormat mDateFormat = new SimpleDateFormat(
+			"yyyy.MM.dd E", Locale.KOREAN);
+	private final ArrayList<View> mViewList = new ArrayList<View>();
+
+	private final FoodMenuPresenter mPresenter;
 
 	public FoodMenuPagerAdapter(FoodMenuPresenter presenter)
 	{
@@ -264,9 +269,16 @@ class FoodMenuPagerAdapter extends PagerAdapter
 			view = View.inflate(container.getContext(),
 					R.layout.fragment_dormitory_menu, null);
 
-			final ExpandableListView listView = (ExpandableListView) view
+			PageViewHolder viewHolder = new PageViewHolder();
+			viewHolder.expandableListView = (ExpandableListView) view
 					.findViewById(R.id.foodListView);
-			listView.setAdapter(new FoodMenuExpandableListAdapter());
+			viewHolder.progressBar = (ProgressBar) view
+					.findViewById(R.id.progressBar);
+
+			viewHolder.expandableListView
+					.setAdapter(new FoodMenuExpandableListAdapter());
+
+			view.setTag(viewHolder);
 
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)
 			{
@@ -334,10 +346,9 @@ class FoodMenuPagerAdapter extends PagerAdapter
 
 	void updateView(final View view, final int position)
 	{
-		final ExpandableListView listView = (ExpandableListView) view
-				.findViewById(R.id.foodListView);
-		final ProgressBar progressBar = (ProgressBar) view
-				.findViewById(R.id.progressBar);
+		final PageViewHolder viewHolder = (PageViewHolder) view.getTag();
+		final ExpandableListView listView = viewHolder.expandableListView;
+		final ProgressBar progressBar = viewHolder.progressBar;
 
 		listView.setVisibility(View.INVISIBLE);
 		progressBar.setVisibility(View.VISIBLE);
@@ -347,7 +358,7 @@ class FoodMenuPagerAdapter extends PagerAdapter
 
 		// 현재 View에서 사용할 데이터의 id를 저장해 두어
 		// DataReceiver에서 View의 갱신 유무를 판별한다.
-		view.setTag(position);
+		viewHolder.position = position;
 
 		mPresenter.getData(position, new DataReceiver<FoodMenu>()
 		{
@@ -356,8 +367,7 @@ class FoodMenuPagerAdapter extends PagerAdapter
 			{
 				// View가 재사용 될 경우 다른 DataReceiver에서
 				// View를 갱신을 하므로, View를 갱신하지 않음
-				int currentPosition = (Integer) view.getTag();
-				if (currentPosition != position)
+				if (viewHolder.position != position)
 					return;
 
 				listView.setVisibility(View.VISIBLE);

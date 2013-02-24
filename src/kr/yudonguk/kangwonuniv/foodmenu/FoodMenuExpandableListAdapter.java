@@ -15,8 +15,28 @@ import android.widget.TextView;
 
 public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 {
-	final int HEADER_COUNT = 1;
-	FoodMenu mFoodMenu;
+	private static class GroupViewHolder
+	{
+		// Section 표시할 때 사용
+		public View section = null;
+		public TextView titleView = null;
+		public TextView subtitleView = null;
+
+		// 그룹으로 사용하지 않을 때 사용
+		public View group = null;
+		public TextView textView = null;
+		public ImageView imageView = null;
+		public RatingBar ratingBar = null;
+	}
+
+	private static class ChildViewHolder
+	{
+		public TextView textView = null;
+		public RatingBar ratingBar = null;
+	}
+
+	private final int HEADER_COUNT = 1;
+	private FoodMenu mFoodMenu;
 
 	public FoodMenuExpandableListAdapter()
 	{
@@ -90,15 +110,21 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		{
 			convertView = View.inflate(parent.getContext(),
 					R.layout.food_menu_item, null);
+
+			ChildViewHolder viewHolder = new ChildViewHolder();
+
+			viewHolder.textView = (TextView) convertView
+					.findViewById(R.id.foodTextView);
+			viewHolder.ratingBar = (RatingBar) convertView
+					.findViewById(R.id.ratingBar);
+
+			convertView.setTag(viewHolder);
 		}
 
-		TextView textView = (TextView) convertView
-				.findViewById(R.id.foodTextView);
-		RatingBar ratingBar = (RatingBar) convertView
-				.findViewById(R.id.ratingBar);
+		ChildViewHolder viewHolder = (ChildViewHolder) convertView.getTag();
 
-		textView.setText(food.name);
-		ratingBar.setRating(food.rate);
+		viewHolder.textView.setText(food.name);
+		viewHolder.ratingBar.setRating(food.rate);
 
 		return convertView;
 	}
@@ -171,6 +197,25 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		{
 			convertView = View.inflate(parent.getContext(),
 					R.layout.food_menu_group, null);
+
+			GroupViewHolder viewHolder = new GroupViewHolder();
+
+			viewHolder.section = convertView
+					.findViewById(R.id.foodMenuIndocator);
+			viewHolder.titleView = (TextView) convertView
+					.findViewById(R.id.titleTextView);
+			viewHolder.subtitleView = (TextView) convertView
+					.findViewById(R.id.subtitleTextView);
+
+			viewHolder.group = convertView.findViewById(R.id.foodMenuGroup);
+			viewHolder.textView = (TextView) convertView
+					.findViewById(R.id.foodGroupTextView);
+			viewHolder.imageView = (ImageView) convertView
+					.findViewById(R.id.foodGroupIndicator);
+			viewHolder.ratingBar = (RatingBar) convertView
+					.findViewById(R.id.ratingBar);
+
+			convertView.setTag(viewHolder);
 		}
 
 		Section section = null;
@@ -199,18 +244,15 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		if (section == null)
 			return null;
 
-		View indicator = convertView.findViewById(R.id.foodMenuIndocator);
-		View group = convertView.findViewById(R.id.foodMenuGroup);
+		GroupViewHolder viewHolder = (GroupViewHolder) convertView.getTag();
 
 		if (groupPosition == 0)
 		{
-			indicator.setVisibility(View.VISIBLE);
-			group.setVisibility(View.GONE);
+			viewHolder.section.setVisibility(View.VISIBLE);
+			viewHolder.group.setVisibility(View.GONE);
 
-			TextView titleTextView = (TextView) indicator
-					.findViewById(R.id.titleTextView);
-			TextView subtitleTextView = (TextView) indicator
-					.findViewById(R.id.subtitleTextView);
+			TextView titleTextView = viewHolder.titleView;
+			TextView subtitleTextView = viewHolder.subtitleView;
 
 			titleTextView.setText(section.name);
 
@@ -241,15 +283,12 @@ public class FoodMenuExpandableListAdapter extends BaseExpandableListAdapter
 		{
 			Food food = section.get(groupPosition - 1);
 
-			indicator.setVisibility(View.GONE);
-			group.setVisibility(View.VISIBLE);
+			viewHolder.section.setVisibility(View.GONE);
+			viewHolder.group.setVisibility(View.VISIBLE);
 
-			TextView textView = (TextView) group
-					.findViewById(R.id.foodGroupTextView);
-			ImageView imageView = (ImageView) group
-					.findViewById(R.id.foodGroupIndicator);
-			RatingBar ratingBar = (RatingBar) group
-					.findViewById(R.id.ratingBar);
+			TextView textView = viewHolder.textView;
+			ImageView imageView = viewHolder.imageView;
+			RatingBar ratingBar = viewHolder.ratingBar;
 
 			if (food.isGroup())
 			{
