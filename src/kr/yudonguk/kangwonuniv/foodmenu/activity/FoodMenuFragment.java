@@ -1,7 +1,7 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
-import kr.yudonguk.kangwonuniv.foodmenu.data.DummyFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.BaekRokFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
@@ -30,7 +30,7 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 			Bundle savedInstanceState)
 	{
 		mUiView = new FoodMenuView(this);
-		mUiModel = new DummyFoodMenuModel(this);
+		mUiModel = new BaekRokFoodMenuModel(this);
 
 		asyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
 
