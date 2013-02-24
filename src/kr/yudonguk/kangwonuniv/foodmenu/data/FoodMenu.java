@@ -121,7 +121,7 @@ public class FoodMenu
 		}
 	}
 
-	public ArrayList<Section> sections = new ArrayList<FoodMenu.Section>();
+	public final ArrayList<Section> sections = new ArrayList<FoodMenu.Section>();
 
 	public void add(Section section)
 	{
