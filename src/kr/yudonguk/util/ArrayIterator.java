@@ -1,5 +1,6 @@
 package kr.yudonguk.util;
 
+import java.security.InvalidParameterException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -9,13 +10,17 @@ public class ArrayIterator<E> implements Iterator<E>
 	private int mCursor;
 	private final boolean mNullSkip;
 
-	public ArrayIterator(E[] array)
+	public ArrayIterator(E[] array) throws InvalidParameterException
 	{
 		this(array, false);
 	}
 
 	public ArrayIterator(E[] array, boolean nullSkip)
+			throws InvalidParameterException
 	{
+		if (array == null)
+			throw new InvalidParameterException();
+
 		mArray = array;
 		mCursor = -1;
 		mNullSkip = nullSkip;
