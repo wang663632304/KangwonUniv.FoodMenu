@@ -8,12 +8,12 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu.Week;
-import kr.yudonguk.kangwonuniv.foodmenu.data.parser.FoodMenuPraser;
-import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuCoopFoodMenuPraser;
+import kr.yudonguk.kangwonuniv.foodmenu.data.parser.FoodMenuParser;
+import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuCoopFoodMenuParser;
 
 public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 {
-	private static final FoodMenuPraser parser = new KnuCoopFoodMenuPraser();
+	private static final FoodMenuParser parser = new KnuCoopFoodMenuParser();
 	private WeekFoodMenu weekFoodMenu = null;
 	private final Lock mWeekFoodMenuLock = new ReentrantLock();
 

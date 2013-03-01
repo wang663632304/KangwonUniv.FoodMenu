@@ -5,7 +5,7 @@ import java.net.URL;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu;
 
-public interface FoodMenuPraser
+public interface FoodMenuParser
 {
 	WeekFoodMenu parse(URL url) throws IOException;
 }
