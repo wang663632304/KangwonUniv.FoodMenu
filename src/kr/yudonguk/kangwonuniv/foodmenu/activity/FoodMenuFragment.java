@@ -3,7 +3,10 @@ package kr.yudonguk.kangwonuniv.foodmenu.activity;
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.BaekRokFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.BtlFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.CheonJiFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.DormitoryFirstFoodMenuModel;
+import kr.yudonguk.kangwonuniv.foodmenu.data.DormitoryThirdFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.DummyFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenuModel;
@@ -52,17 +55,24 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 
 			switch (index)
 			{
-				case 0:
-					mUiModel = new BaekRokFoodMenuModel(this);
-					break;
-				case 1:
-					mUiModel = new CheonJiFoodMenuModel(this);
-					break;
-				case 2:
-					mUiModel = new TaeBaekFoodMenuModel(this);
-				case 3:
-				case 4:
-				case 5:
+			case 0:
+				mUiModel = new BaekRokFoodMenuModel(this);
+				break;
+			case 1:
+				mUiModel = new CheonJiFoodMenuModel(this);
+				break;
+			case 2:
+				mUiModel = new TaeBaekFoodMenuModel(this);
+				break;
+			case 3:
+				mUiModel = new DormitoryFirstFoodMenuModel(this);
+				break;
+			case 4:
+				mUiModel = new DormitoryThirdFoodMenuModel(this);
+				break;
+			case 5:
+				mUiModel = new BtlFoodMenuModel(this);
+				break;
 			}
 		}
 
