@@ -2,19 +2,17 @@
 <resources>
 
     <string name="app_name">강원대 식단표</string>
-    <string name="title_section3">Section 3</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section1">Section 1</string>
-    <string name="hello_world">Hello world!</string>
     <string name="menu_settings">설정</string>
+
     <string-array name="restaurant_list">
-        <item >백록관</item>
-        <item >천지관</item>
-        <item >태백관</item>
-        <item >기숙사 제 1 식당</item>
-        <item >기숙사 제 3식당</item>
-        <item >기숙사 BTL 식당</item>
+        <item>백록관</item>
+        <item>천지관</item>
+        <item>태백관</item>
+        <item>기숙사 제 1 식당</item>
+        <item>기숙사 제 3 식당</item>
+        <item>기숙사 BTL 식당</item>
     </string-array>
+
     <string name="menu_sharing">공유</string>
     <string name="menu_refresh">새로고침</string>
     <string name="menu_today">오늘</string>
