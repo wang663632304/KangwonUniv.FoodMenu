@@ -1,13 +1,18 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-public class FoodMenu
+public class FoodMenu implements Serializable
 {
-	public static class Food
+	private static final long serialVersionUID = 5662631438827753748L;
+
+	public static class Food implements Serializable
 	{
+		private static final long serialVersionUID = -5848567020893619123L;
+
 		public String name;
 		public float rate;
 
@@ -35,6 +40,8 @@ public class FoodMenu
 
 	public static class FoodGroup extends Food
 	{
+		private static final long serialVersionUID = 2273778400758717991L;
+
 		public final ArrayList<Food> foods = new ArrayList<Food>();
 
 		public FoodGroup()
@@ -69,8 +76,10 @@ public class FoodMenu
 		}
 	}
 
-	public static class Section
+	public static class Section implements Serializable
 	{
+		private static final long serialVersionUID = -1056979296710076797L;
+
 		public String name;
 		public final Calendar startTime = Calendar.getInstance();
 		public final Calendar endTime = Calendar.getInstance();
