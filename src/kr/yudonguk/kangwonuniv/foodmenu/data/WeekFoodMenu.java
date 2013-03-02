@@ -17,7 +17,7 @@ public class WeekFoodMenu
 			value = value_;
 		}
 
-		static Week toWeek(int calendarDayOfWeek)
+		public static Week toWeek(int calendarDayOfWeek)
 		{
 			switch (calendarDayOfWeek)
 			{
