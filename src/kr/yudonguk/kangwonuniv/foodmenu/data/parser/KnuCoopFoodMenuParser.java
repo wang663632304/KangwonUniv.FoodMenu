@@ -20,10 +20,6 @@ import org.htmlcleaner.XPatherException;
 
 public class KnuCoopFoodMenuParser implements FoodMenuParser
 {
-	public static String CHEON_JI_URL = "http://knucoop.kangwon.ac.kr/weekly_menu_01.asp";
-	public static String BAEK_ROK_URL = "http://knucoop.kangwon.ac.kr/weekly_menu_02.asp";
-	public static String TAE_BAEK_URL = "http://knucoop.kangwon.ac.kr/weekly_menu_03.asp";
-
 	public WeekFoodMenu parse(URL url) throws IOException
 	{
 		CleanerProperties properties = new CleanerProperties();

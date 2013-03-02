@@ -1,6 +1,5 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data;
 
-import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuCoopFoodMenuParser;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 
 public class BaekRokFoodMenuModel extends KnuCoopFoodMenuModel
@@ -25,6 +24,6 @@ public class BaekRokFoodMenuModel extends KnuCoopFoodMenuModel
 	@Override
 	public String getKnuCoopUrl()
 	{
-		return KnuCoopFoodMenuParser.BAEK_ROK_URL;
+		return "http://knucoop.kangwon.ac.kr/weekly_menu_02.asp";
 	}
 }
