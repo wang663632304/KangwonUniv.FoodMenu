@@ -34,8 +34,8 @@ import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 
-public class FoodMenuView extends UiView
-		implements OnClickListener, OnDateSetListener
+public class FoodMenuView extends UiView implements OnClickListener,
+		OnDateSetListener
 {
 	static final String CURRENT_PAGE = "CURRENT_PAGE";
 
@@ -111,11 +111,13 @@ public class FoodMenuView extends UiView
 
 	@Override
 	public void onDisabled()
-	{}
+	{
+	}
 
 	@Override
 	public void onError(UpdateResult result)
-	{}
+	{
+	}
 
 	@Override
 	public void update()
@@ -135,18 +137,18 @@ public class FoodMenuView extends UiView
 	{
 		switch (item.getItemId())
 		{
-		case R.id.menu_settings:
+			case R.id.menu_settings:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(context, SettingsActivity.class);
 				context.startActivity(intent);
 				return true;
 			}
-		case R.id.menu_refresh:
-			update();
-			return true;
+			case R.id.menu_refresh:
+				update();
+				return true;
 
-		case R.id.menu_today:
+			case R.id.menu_today:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -156,8 +158,8 @@ public class FoodMenuView extends UiView
 
 				mViewPager.setCurrentItem(itemIndex);
 			}
-			return true;
-		case R.id.menu_sharing:
+				return true;
+			case R.id.menu_sharing:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(Intent.ACTION_SEND);
@@ -175,7 +177,7 @@ public class FoodMenuView extends UiView
 				context.startActivity(Intent.createChooser(intent,
 						context.getString(R.string.menu_sharing)));
 			}
-			return true;
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -185,7 +187,7 @@ public class FoodMenuView extends UiView
 	{
 		switch (view.getId())
 		{
-		case R.id.pager_title_strip:
+			case R.id.pager_title_strip:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager
@@ -376,11 +378,10 @@ class FoodMenuPagerAdapter extends PagerAdapter
 				listView.setAnimation(AnimationUtils.loadAnimation(
 						view.getContext(), android.R.anim.fade_in));
 
-				if (data == null)
-					return;
-
 				FoodMenuExpandableListAdapter adapter = (FoodMenuExpandableListAdapter) listView
 						.getExpandableListAdapter();
+				if (data == null)
+					data = new FoodMenu();
 				adapter.change(data);
 
 				for (int i = 0, max = adapter.getGroupCount(); i < max; i++)
