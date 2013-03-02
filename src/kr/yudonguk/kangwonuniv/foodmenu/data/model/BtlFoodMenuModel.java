@@ -1,13 +1,14 @@
-package kr.yudonguk.kangwonuniv.foodmenu.data;
+package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuDormitoryFoodMenuParser;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 
-public class DormitoryFirstFoodMenuModel extends KnuDormitoryFoodMenuModel
+public class BtlFoodMenuModel extends KnuDormitoryFoodMenuModel
 {
 	final FoodMenuPresenter mPresenter;
 
-	public DormitoryFirstFoodMenuModel(FoodMenuPresenter presenter)
+	public BtlFoodMenuModel(FoodMenuPresenter presenter)
 	{
 		mPresenter = presenter;
 	}
@@ -23,6 +24,6 @@ public class DormitoryFirstFoodMenuModel extends KnuDormitoryFoodMenuModel
 	@Override
 	public String getKnuDormitoryUrl()
 	{
-		return KnuDormitoryFoodMenuParser.FIRST_RESTAURANT_URL;
+		return KnuDormitoryFoodMenuParser.BTL_URL;
 	}
 }

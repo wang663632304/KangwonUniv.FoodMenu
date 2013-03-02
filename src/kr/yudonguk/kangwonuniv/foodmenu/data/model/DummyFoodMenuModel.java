@@ -1,8 +1,9 @@
-package kr.yudonguk.kangwonuniv.foodmenu.data;
+package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import java.util.Date;
 import java.util.Random;
 
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;

@@ -1,4 +1,4 @@
-package kr.yudonguk.kangwonuniv.foodmenu.data;
+package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
+import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu.Week;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.FoodMenuParser;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuDormitoryFoodMenuParser;
