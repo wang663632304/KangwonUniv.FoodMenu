@@ -15,6 +15,7 @@ import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UpdateResult;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -55,24 +56,24 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 
 			switch (index)
 			{
-			case 0:
-				mUiModel = new BaekRokFoodMenuModel(this);
-				break;
-			case 1:
-				mUiModel = new CheonJiFoodMenuModel(this);
-				break;
-			case 2:
-				mUiModel = new TaeBaekFoodMenuModel(this);
-				break;
-			case 3:
-				mUiModel = new DormitoryFirstFoodMenuModel(this);
-				break;
-			case 4:
-				mUiModel = new DormitoryThirdFoodMenuModel(this);
-				break;
-			case 5:
-				mUiModel = new BtlFoodMenuModel(this);
-				break;
+				case 0:
+					mUiModel = new BaekRokFoodMenuModel(this);
+					break;
+				case 1:
+					mUiModel = new CheonJiFoodMenuModel(this);
+					break;
+				case 2:
+					mUiModel = new TaeBaekFoodMenuModel(this);
+					break;
+				case 3:
+					mUiModel = new DormitoryFirstFoodMenuModel(this);
+					break;
+				case 4:
+					mUiModel = new DormitoryThirdFoodMenuModel(this);
+					break;
+				case 5:
+					mUiModel = new BtlFoodMenuModel(this);
+					break;
 			}
 		}
 
@@ -159,5 +160,11 @@ public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
 	public void setData(int id, FoodMenu data)
 	{
 		mUiModel.setData(id, data);
+	}
+
+	@Override
+	public Context getContext()
+	{
+		return getActivity();
 	}
 }
