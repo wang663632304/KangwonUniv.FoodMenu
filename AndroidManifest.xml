@@ -36,10 +36,10 @@
             android:value="true" />
         <meta-data
             android:name="com.sec.minimode.icon.portrait.normal"
-            android:resource="@drawable/ic_launcher" />
+            android:resource="@drawable/ic_launcher_steak_gomduri" />
         <meta-data
             android:name="com.sec.minimode.icon.landscape.normal"
-            android:resource="@drawable/ic_launcher" />
+            android:resource="@drawable/ic_launcher_steak_gomduri" />
     </application>
 
 </manifest>
