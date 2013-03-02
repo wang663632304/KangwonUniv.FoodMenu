@@ -23,7 +23,7 @@ public class CalendarUtil
 		int dayOfWeek = outFirstDate.get(Calendar.DAY_OF_WEEK);
 		int dayOfWeekDiff = firstDayOfWeek - dayOfWeek;
 
-		if (dayOfWeek > 0)
+		if (dayOfWeekDiff > 0)
 			outFirstDate.add(Calendar.DAY_OF_MONTH, -7 + dayOfWeekDiff);
 		else
 			outFirstDate.add(Calendar.DAY_OF_MONTH, dayOfWeekDiff);
