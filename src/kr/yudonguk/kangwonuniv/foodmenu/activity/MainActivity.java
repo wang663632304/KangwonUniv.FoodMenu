@@ -2,16 +2,17 @@ package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.widget.ArrayAdapter;
 
-public class MainActivity extends FragmentActivity
-		implements ActionBar.OnNavigationListener
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+
+public class MainActivity extends SherlockFragmentActivity implements
+		ActionBar.OnNavigationListener
 {
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -26,7 +27,7 @@ public class MainActivity extends FragmentActivity
 		setContentView(R.layout.activity_main);
 
 		// Set up the action bar to show a dropdown list.
-		final ActionBar actionBar = getActionBar();
+		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
@@ -61,11 +62,11 @@ public class MainActivity extends FragmentActivity
 	public void onRestoreInstanceState(Bundle savedInstanceState)
 	{
 		super.onRestoreInstanceState(savedInstanceState);
-		
+
 		// Restore the previously serialized current dropdown position.
 		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM))
 		{
-			getActionBar().setSelectedNavigationItem(
+			getSupportActionBar().setSelectedNavigationItem(
 					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
 		}
 	}
@@ -74,9 +75,9 @@ public class MainActivity extends FragmentActivity
 	public void onSaveInstanceState(Bundle outState)
 	{
 		super.onSaveInstanceState(outState);
-		
+
 		// Serialize the current dropdown position.
-		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
 				.getSelectedNavigationIndex());
 	}
 
@@ -93,8 +94,10 @@ public class MainActivity extends FragmentActivity
 		args.putString(FoodMenuFragment.ARG_RESTAURANT_NAME,
 				restaurantName[position]);
 		fragment.setArguments(args);
+
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
+
 		return true;
 	}
 }

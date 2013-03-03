@@ -23,9 +23,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -33,6 +30,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public class FoodMenuView extends UiView implements OnClickListener,
 		OnDateSetListener
@@ -205,8 +206,7 @@ public class FoodMenuView extends UiView implements OnClickListener,
 				}
 				else
 				{
-					mDatePickerDialog.getDatePicker().updateDate(year, month,
-							day);
+					mDatePickerDialog.updateDate(year, month, day);
 				}
 
 				mDatePickerDialog.show();
@@ -217,18 +217,14 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	@Override
 	public void onDateSet(DatePicker picker, int year, int month, int day)
 	{
-		if (mDatePickerDialog != null
-				&& mDatePickerDialog.getDatePicker() == picker)
-		{
-			Calendar calendar = Calendar.getInstance();
-			calendar.set(year, month, day);
-			calendar.set(Calendar.HOUR_OF_DAY, 12);
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(year, month, day);
+		calendar.set(Calendar.HOUR_OF_DAY, 12);
 
-			int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
-					.getTimeInMillis());
+		int itemIndex = (int) TimeUnit.MILLISECONDS.toDays(calendar
+				.getTimeInMillis());
 
-			mViewPager.setCurrentItem(itemIndex);
-		}
+		mViewPager.setCurrentItem(itemIndex);
 	}
 }
 

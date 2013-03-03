@@ -17,15 +17,17 @@ import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UpdateResult;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FoodMenuFragment extends Fragment implements FoodMenuPresenter
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class FoodMenuFragment extends SherlockFragment implements
+		FoodMenuPresenter
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
