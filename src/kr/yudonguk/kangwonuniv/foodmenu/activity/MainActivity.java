@@ -5,14 +5,22 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils.TruncateAt;
+import android.util.SparseArray;
+import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class MainActivity extends SherlockFragmentActivity implements
-		ActionBar.OnNavigationListener
+public class MainActivity extends SherlockFragmentActivity
+		implements OnNavigationListener
 {
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -31,13 +39,13 @@ public class MainActivity extends SherlockFragmentActivity implements
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		// Set up the dropdown list navigation in the action bar.
-		actionBar.setListNavigationCallbacks(
-		// Specify a SpinnerAdapter to populate the dropdown list.
-				new ArrayAdapter<String>(getActionBarThemedContextCompat(),
-						android.R.layout.simple_list_item_1,
-						android.R.id.text1, getResources().getStringArray(
-								R.array.restaurant_list)), this);
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+				getActionBarThemedContextCompat(),
+				android.R.layout.simple_dropdown_item_1line,
+				android.R.id.text1, getResources().getStringArray(
+						R.array.restaurant_list));
+
+		actionBar.setListNavigationCallbacks(arrayAdapter, this);
 	}
 
 	/**
