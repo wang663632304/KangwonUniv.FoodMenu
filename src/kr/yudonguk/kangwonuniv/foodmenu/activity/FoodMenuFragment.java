@@ -1,8 +1,7 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
-import java.util.Iterator;
-
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
+import kr.yudonguk.kangwonuniv.foodmenu.AsyncIteratorImpl;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.BaekRokFoodMenuModel;
@@ -17,7 +16,6 @@ import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
-import kr.yudonguk.ui.UiData;
 import kr.yudonguk.ui.UpdateResult;
 import android.content.Context;
 import android.os.Bundle;
@@ -33,32 +31,6 @@ import com.actionbarsherlock.view.MenuItem;
 public class FoodMenuFragment extends SherlockFragment implements
 		FoodMenuPresenter
 {
-	private class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
-	{
-		private Iterator<UiData<Data>> mIterator;
-
-		public AsyncIteratorImpl(Iterator<UiData<Data>> iterator)
-		{
-			mIterator = iterator;
-		}
-
-		@Override
-		public boolean hasNext()
-		{
-			return mIterator.hasNext();
-		}
-
-		@Override
-		public void next(DataReceiver<Data> receiver)
-		{
-			if (!mIterator.hasNext())
-				return;
-
-			UiData<Data> data = mIterator.next();
-			receiver.onReceived(data.id, data.data);
-		}
-	}
-
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
 	FoodMenuView mUiView;
