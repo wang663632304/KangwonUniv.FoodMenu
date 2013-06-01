@@ -1,6 +1,7 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
@@ -8,6 +9,7 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.ui.UiData;
 import kr.yudonguk.ui.UpdateResult;
 
 public class DummyFoodMenuModel implements FoodMenuModel
@@ -82,6 +84,58 @@ public class DummyFoodMenuModel implements FoodMenuModel
 	@Override
 	public void setData(int id, FoodMenu data)
 	{
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> reverseIterator()
+	{
+		return new Iterator<UiData<FoodMenu>>()
+		{
+			int mIndex = 0;
+
+			@Override
+			public void remove()
+			{
+			}
+
+			@Override
+			public UiData<FoodMenu> next()
+			{
+				return new UiData<FoodMenu>(mIndex, getData(mIndex++));
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				return true;
+			}
+		};
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> iterator()
+	{
+		return new Iterator<UiData<FoodMenu>>()
+		{
+			int mIndex = Integer.MAX_VALUE;
+
+			@Override
+			public void remove()
+			{
+			}
+
+			@Override
+			public UiData<FoodMenu> next()
+			{
+				return new UiData<FoodMenu>(mIndex, getData(mIndex--));
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				return true;
+			}
+		};
 	}
 
 }
