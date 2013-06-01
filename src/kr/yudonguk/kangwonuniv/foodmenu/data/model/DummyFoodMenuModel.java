@@ -22,6 +22,17 @@ public class DummyFoodMenuModel implements FoodMenuModel
 	}
 
 	@Override
+	public boolean enable()
+	{
+		return true;
+	}
+
+	@Override
+	public void disable()
+	{
+	}
+
+	@Override
 	public void update()
 	{
 		mPresenter.onModelUpdated(new UpdateResult());

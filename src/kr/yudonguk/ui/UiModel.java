@@ -4,6 +4,10 @@ import java.util.Iterator;
 
 public interface UiModel<Data> extends Iterable<UiData<Data>>
 {
+	boolean enable();
+
+	void disable();
+
 	void update();
 
 	Data getData(int id);

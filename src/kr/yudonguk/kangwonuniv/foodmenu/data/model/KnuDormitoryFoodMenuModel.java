@@ -21,6 +21,17 @@ public abstract class KnuDormitoryFoodMenuModel implements FoodMenuModel
 	private final Calendar mWeekFoodMenuCalendar = Calendar.getInstance();
 
 	@Override
+	public boolean enable()
+	{
+		return true;
+	}
+
+	@Override
+	public void disable()
+	{
+	}
+
+	@Override
 	public FoodMenu getData(int id)
 	{
 		Calendar calendar = Calendar.getInstance();

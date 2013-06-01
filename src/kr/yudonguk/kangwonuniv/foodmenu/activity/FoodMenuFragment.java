@@ -88,6 +88,7 @@ public class FoodMenuFragment extends SherlockFragment implements
 
 		setHasOptionsMenu(true);
 
+		mUiModel.enable();
 		View view = mUiView.onEnabled(inflater);
 		if (savedInstanceState != null)
 			mUiView.restoreState(savedInstanceState);
@@ -115,6 +116,7 @@ public class FoodMenuFragment extends SherlockFragment implements
 	{
 		super.onPause();
 		mUiView.onDisabled();
+		mUiModel.disable();
 	}
 
 	@Override
