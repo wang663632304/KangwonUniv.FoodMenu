@@ -1,5 +1,7 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
+import java.util.Iterator;
+
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
@@ -13,7 +15,9 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.model.FoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
+import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
+import kr.yudonguk.ui.UiData;
 import kr.yudonguk.ui.UpdateResult;
 import android.content.Context;
 import android.os.Bundle;
@@ -29,11 +33,37 @@ import com.actionbarsherlock.view.MenuItem;
 public class FoodMenuFragment extends SherlockFragment implements
 		FoodMenuPresenter
 {
+	private class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
+	{
+		private Iterator<UiData<Data>> mIterator;
+
+		public AsyncIteratorImpl(Iterator<UiData<Data>> iterator)
+		{
+			mIterator = iterator;
+		}
+
+		@Override
+		public boolean hasNext()
+		{
+			return mIterator.hasNext();
+		}
+
+		@Override
+		public void next(DataReceiver<Data> receiver)
+		{
+			if (!mIterator.hasNext())
+				return;
+
+			UiData<Data> data = mIterator.next();
+			receiver.onReceived(data.id, data.data);
+		}
+	}
+
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
 	FoodMenuView mUiView;
 	FoodMenuModel mUiModel;
-	AsyncDataReader<FoodMenu> asyncDataReader;
+	AsyncDataReader<FoodMenu> mAsyncDataReader;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,7 +114,7 @@ public class FoodMenuFragment extends SherlockFragment implements
 			mUiModel = new DummyFoodMenuModel(this);
 		}
 
-		asyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
+		mAsyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
 
 		setHasOptionsMenu(true);
 
@@ -151,13 +181,13 @@ public class FoodMenuFragment extends SherlockFragment implements
 	@Override
 	public void getData(final int id, final DataReceiver<FoodMenu> receiver)
 	{
-		asyncDataReader.execute(id, receiver);
+		mAsyncDataReader.execute(id, receiver);
 	}
 
 	@Override
 	public void cancelGetting(int id)
 	{
-		asyncDataReader.cancel(id);
+		mAsyncDataReader.cancel(id);
 	}
 
 	@Override
@@ -170,5 +200,17 @@ public class FoodMenuFragment extends SherlockFragment implements
 	public Context getContext()
 	{
 		return getActivity();
+	}
+
+	@Override
+	public AsyncIterator<FoodMenu> iterator()
+	{
+		return new AsyncIteratorImpl<FoodMenu>(mUiModel.iterator());
+	}
+
+	@Override
+	public AsyncIterator<FoodMenu> reverseIterator()
+	{
+		return new AsyncIteratorImpl<FoodMenu>(mUiModel.reverseIterator());
 	}
 }

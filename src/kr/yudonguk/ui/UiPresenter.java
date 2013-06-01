@@ -10,6 +10,10 @@ public interface UiPresenter<Data>
 
 	void getData(int id, DataReceiver<Data> receiver);
 
+	AsyncIterator<Data> iterator();
+
+	AsyncIterator<Data> reverseIterator();
+
 	void cancelGetting(int id);
 
 	void setData(int id, Data data);
