@@ -70,15 +70,25 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 	@Override
 	public Iterator<UiData<FoodMenu>> iterator()
 	{
+		return iterator(Integer.MIN_VALUE);
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> iterator(final int startId)
+	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
+			final Calendar startDate = Calendar.getInstance();
+			Calendar endDate = Calendar.getInstance();
+			CalendarUtil.getWeekBoundary(startDate, endDate,
+					mWeekFoodMenuCalendar, Calendar.MONDAY);
+
 			return new Iterator<UiData<FoodMenu>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuCoopFoodMenuModel.this.mWeekFoodMenu;
-				Calendar mWeekFoodMenuCalendar = (Calendar) KnuCoopFoodMenuModel.this.mWeekFoodMenuCalendar
-						.clone();
 
-				int mIndex = 0;
+				int mIndex = Math.max(
+						startId - startDate.get(Calendar.DAY_OF_MONTH), 0);
 
 				@Override
 				public void remove()
@@ -88,15 +98,10 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 				@Override
 				public UiData<FoodMenu> next()
 				{
-					synchronized (mWeekFoodMenuCalendar)
+					synchronized (startDate)
 					{
 						if (!hasNext())
 							return null;
-
-						Calendar startDate = Calendar.getInstance();
-						Calendar endDate = Calendar.getInstance();
-						CalendarUtil.getWeekBoundary(startDate, endDate,
-								mWeekFoodMenuCalendar, Calendar.MONDAY);
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
@@ -108,12 +113,12 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 				@Override
 				public boolean hasNext()
 				{
-					synchronized (mWeekFoodMenuCalendar)
+					synchronized (startDate)
 					{
 						if (mWeekFoodMenu == null)
 							return false;
 
-						if (mWeekFoodMenu.foodMenus.length - 1 <= mIndex)
+						if (mWeekFoodMenu.foodMenus.length <= mIndex)
 							return false;
 
 						return true;
@@ -126,15 +131,25 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 	@Override
 	public Iterator<UiData<FoodMenu>> reverseIterator()
 	{
+		return reverseIterator(Integer.MAX_VALUE);
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> reverseIterator(final int startId)
+	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
+			final Calendar startDate = Calendar.getInstance();
+			Calendar endDate = Calendar.getInstance();
+			CalendarUtil.getWeekBoundary(startDate, endDate,
+					mWeekFoodMenuCalendar, Calendar.MONDAY);
+
 			return new Iterator<UiData<FoodMenu>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuCoopFoodMenuModel.this.mWeekFoodMenu;
-				Calendar mWeekFoodMenuCalendar = (Calendar) KnuCoopFoodMenuModel.this.mWeekFoodMenuCalendar
-						.clone();
 
-				int mIndex = 6;
+				int mIndex = Math.min(
+						startId - startDate.get(Calendar.DAY_OF_MONTH), 6);
 
 				@Override
 				public void remove()
@@ -144,15 +159,10 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 				@Override
 				public UiData<FoodMenu> next()
 				{
-					synchronized (mWeekFoodMenuCalendar)
+					synchronized (startDate)
 					{
 						if (!hasNext())
 							return null;
-
-						Calendar startDate = Calendar.getInstance();
-						Calendar endDate = Calendar.getInstance();
-						CalendarUtil.getWeekBoundary(startDate, endDate,
-								mWeekFoodMenuCalendar, Calendar.MONDAY);
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
@@ -164,12 +174,12 @@ public abstract class KnuCoopFoodMenuModel implements FoodMenuModel
 				@Override
 				public boolean hasNext()
 				{
-					synchronized (mWeekFoodMenuCalendar)
+					synchronized (startDate)
 					{
 						if (mWeekFoodMenu == null)
 							return false;
 
-						if (mIndex <= 0)
+						if (mIndex < 0)
 							return false;
 
 						return true;

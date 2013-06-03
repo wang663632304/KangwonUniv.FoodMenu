@@ -14,5 +14,9 @@ public interface UiModel<Data> extends Iterable<UiData<Data>>
 
 	void setData(int id, Data data);
 
+	Iterator<UiData<Data>> iterator(int startId);
+
 	Iterator<UiData<Data>> reverseIterator();
+
+	Iterator<UiData<Data>> reverseIterator(int startId);
 }

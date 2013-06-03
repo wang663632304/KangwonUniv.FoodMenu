@@ -100,9 +100,15 @@ public class DummyFoodMenuModel implements FoodMenuModel
 	@Override
 	public Iterator<UiData<FoodMenu>> reverseIterator()
 	{
+		return reverseIterator(Integer.MAX_VALUE);
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> reverseIterator(final int startId)
+	{
 		return new Iterator<UiData<FoodMenu>>()
 		{
-			int mIndex = 0;
+			int mIndex = startId;
 
 			@Override
 			public void remove()
@@ -126,9 +132,15 @@ public class DummyFoodMenuModel implements FoodMenuModel
 	@Override
 	public Iterator<UiData<FoodMenu>> iterator()
 	{
+		return iterator(Integer.MIN_VALUE);
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> iterator(final int startId)
+	{
 		return new Iterator<UiData<FoodMenu>>()
 		{
-			int mIndex = Integer.MAX_VALUE;
+			int mIndex = startId;
 
 			@Override
 			public void remove()
@@ -148,5 +160,4 @@ public class DummyFoodMenuModel implements FoodMenuModel
 			}
 		};
 	}
-
 }
