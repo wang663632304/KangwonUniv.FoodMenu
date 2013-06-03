@@ -185,4 +185,16 @@ public class FoodMenuFragment extends SherlockFragment implements
 	{
 		return new AsyncIteratorImpl<FoodMenu>(mUiModel.reverseIterator());
 	}
+
+	@Override
+	public AsyncIterator<FoodMenu> iterator(int startId)
+	{
+		return new AsyncIteratorImpl<FoodMenu>(mUiModel.iterator(startId));
+	}
+
+	@Override
+	public AsyncIterator<FoodMenu> reverseIterator(int startId)
+	{
+		return new AsyncIteratorImpl<FoodMenu>(mUiModel.reverseIterator(startId));
+	}
 }

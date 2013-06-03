@@ -12,7 +12,11 @@ public interface UiPresenter<Data>
 
 	AsyncIterator<Data> iterator();
 
+	AsyncIterator<Data> iterator(int startId);
+
 	AsyncIterator<Data> reverseIterator();
+
+	AsyncIterator<Data> reverseIterator(int startId);
 
 	void cancelGetting(int id);
 
