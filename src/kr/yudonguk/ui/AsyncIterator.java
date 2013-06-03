@@ -2,7 +2,14 @@ package kr.yudonguk.ui;
 
 public interface AsyncIterator<Data>
 {
+	interface Handler
+	{
+		boolean isRunning();
+
+		void cancel();
+	}
+
 	boolean hasNext();
 
-	void next(DataReceiver<Data> receiver);
+	Handler next(DataReceiver<Data> receiver);
 }

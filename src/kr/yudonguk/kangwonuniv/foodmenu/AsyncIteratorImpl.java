@@ -2,11 +2,10 @@ package kr.yudonguk.kangwonuniv.foodmenu;
 
 import java.util.Iterator;
 
-import android.os.AsyncTask;
-
 import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UiData;
+import android.os.AsyncTask;
 
 public class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
 {
@@ -24,12 +23,12 @@ public class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
 	}
 
 	@Override
-	public void next(final DataReceiver<Data> receiver)
+	public AsyncIterator.Handler next(final DataReceiver<Data> receiver)
 	{
 		if (!mIterator.hasNext())
-			return;
+			return null;
 
-		new AsyncTask<Void, Float, UiData<Data>>()
+		final AsyncTask<Void, Float, UiData<Data>> task = new AsyncTask<Void, Float, UiData<Data>>()
 		{
 			@Override
 			protected UiData<Data> doInBackground(Void... params)
@@ -56,6 +55,22 @@ public class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
 				// 이런 방법은 문제를 야기할 것이다.
 				receiver.onProgressed(-1, values[0]);
 			}
-		}.execute();
+		};
+		task.execute();
+
+		return new AsyncIterator.Handler()
+		{
+			@Override
+			public void cancel()
+			{
+				task.cancel(true);
+			}
+
+			@Override
+			public boolean isRunning()
+			{
+				return task.getStatus() != AsyncTask.Status.FINISHED;
+			}
+		};
 	}
 }
