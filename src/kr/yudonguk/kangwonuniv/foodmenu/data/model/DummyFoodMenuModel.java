@@ -17,14 +17,10 @@ public class DummyFoodMenuModel implements UiModel<FoodMenu>
 {
 	UiPresenter<FoodMenu> mPresenter;
 
-	public DummyFoodMenuModel(UiPresenter<FoodMenu> presenter)
+	@Override
+	public boolean enable(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
-	}
-
-	@Override
-	public boolean enable()
-	{
 		return true;
 	}
 

@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public interface UiModel<Data> extends Iterable<UiData<Data>>
 {
-	boolean enable();
+	boolean enable(UiPresenter<Data> presenter);
 
 	void disable();
 

@@ -61,36 +61,36 @@ public class FoodMenuFragment extends SherlockFragment
 			switch (index)
 			{
 			case 0:
-				mUiModel = new BaekRokFoodMenuModel(this);
+				mUiModel = new BaekRokFoodMenuModel();
 				break;
 			case 1:
-				mUiModel = new CheonJiFoodMenuModel(this);
+				mUiModel = new CheonJiFoodMenuModel();
 				break;
 			case 2:
-				mUiModel = new TaeBaekFoodMenuModel(this);
+				mUiModel = new TaeBaekFoodMenuModel();
 				break;
 			case 3:
-				mUiModel = new DormitoryFirstFoodMenuModel(this);
+				mUiModel = new DormitoryFirstFoodMenuModel();
 				break;
 			case 4:
-				mUiModel = new DormitoryThirdFoodMenuModel(this);
+				mUiModel = new DormitoryThirdFoodMenuModel();
 				break;
 			case 5:
-				mUiModel = new BtlFoodMenuModel(this);
+				mUiModel = new BtlFoodMenuModel();
 				break;
 			}
 		}
 
 		if (mUiModel == null)
 		{
-			mUiModel = new DummyFoodMenuModel(this);
+			mUiModel = new DummyFoodMenuModel();
 		}
 
 		mAsyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
 
 		setHasOptionsMenu(true);
 
-		mUiModel.enable();
+		mUiModel.enable(this);
 		View view = mUiView.onEnabled(inflater, this);
 		if (savedInstanceState != null)
 			mUiView.restoreState(savedInstanceState);

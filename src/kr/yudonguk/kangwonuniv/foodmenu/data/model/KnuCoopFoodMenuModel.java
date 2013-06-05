@@ -13,6 +13,7 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.parser.FoodMenuParser;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuCoopFoodMenuParser;
 import kr.yudonguk.ui.UiData;
 import kr.yudonguk.ui.UiModel;
+import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.util.calendar.CalendarUtil;
 
 public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
@@ -22,15 +23,14 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 	private final Calendar mWeekFoodMenuCalendar = Calendar.getInstance();
 
 	@Override
-	public boolean enable()
+	public boolean enable(UiPresenter<FoodMenu> presenter)
 	{
 		return true;
 	}
 
 	@Override
 	public void disable()
-	{
-	}
+	{}
 
 	@Override
 	public FoodMenu getData(int id)
@@ -93,8 +93,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{
-				}
+				{}
 
 				@Override
 				public UiData<FoodMenu> next()
@@ -154,8 +153,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{
-				}
+				{}
 
 				@Override
 				public UiData<FoodMenu> next()
@@ -197,10 +195,12 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 		{
 			URL url = new URL(getKnuCoopUrl());
 			weekFoodMenu = parser.parse(url);
-		} catch (MalformedURLException e)
+		}
+		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
