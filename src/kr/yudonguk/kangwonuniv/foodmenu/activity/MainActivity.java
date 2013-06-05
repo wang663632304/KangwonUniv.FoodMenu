@@ -1,19 +1,17 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils.TruncateAt;
-import android.util.SparseArray;
-import android.util.TypedValue;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
@@ -27,12 +25,16 @@ public class MainActivity extends SherlockFragmentActivity
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+	private List<String> mModelClassNames = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		final SharedPreferences preferences = PreferenceManager
+				.getDefaultSharedPreferences(this);
 
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getSupportActionBar();
@@ -46,6 +48,15 @@ public class MainActivity extends SherlockFragmentActivity
 						R.array.restaurant_list));
 
 		actionBar.setListNavigationCallbacks(arrayAdapter, this);
+
+		mModelClassNames = Arrays.asList(getResources().getStringArray(
+				R.array.restaurant_model_class_name));
+
+		int restaurantIndex = Math.max(0, mModelClassNames.indexOf(preferences
+				.getString(getString(R.string.default_restaurant_key),
+						mModelClassNames.get(0))));
+
+		actionBar.setSelectedNavigationItem(restaurantIndex);
 	}
 
 	/**
@@ -92,15 +103,11 @@ public class MainActivity extends SherlockFragmentActivity
 	@Override
 	public boolean onNavigationItemSelected(int position, long id)
 	{
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
-		String[] restaurantName = getResources().getStringArray(
-				R.array.restaurant_list);
+		String modelClassName = mModelClassNames.get(position);
 
 		Fragment fragment = new FoodMenuFragment();
 		Bundle args = new Bundle();
-		args.putString(FoodMenuFragment.ARG_RESTAURANT_NAME,
-				restaurantName[position]);
+		args.putString(FoodMenuFragment.ARG_RESTAURANT_NAME, modelClassName);
 		fragment.setArguments(args);
 
 		getSupportFragmentManager().beginTransaction()

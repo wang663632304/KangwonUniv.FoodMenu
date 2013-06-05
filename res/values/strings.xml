@@ -12,9 +12,18 @@
         <item>기숙사 제 3 식당</item>
         <item>기숙사 BTL 식당</item>
     </string-array>
+    <string-array name="restaurant_model_class_name">
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.BaekRokFoodMenuModel</item>
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.CheonJiFoodMenuModel</item>
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel</item>
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryFirstFoodMenuModel</item>
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryThirdFoodMenuModel</item>
+        <item>kr.yudonguk.kangwonuniv.foodmenu.data.model.BtlFoodMenuModel</item>
+    </string-array>
 
     <string name="menu_sharing">공유</string>
     <string name="menu_refresh">새로고침</string>
     <string name="menu_today">오늘</string>
+    <string name="default_restaurant">자주 가는 식당</string>
 
 </resources>
