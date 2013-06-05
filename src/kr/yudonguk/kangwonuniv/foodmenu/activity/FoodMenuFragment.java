@@ -41,7 +41,7 @@ public class FoodMenuFragment extends SherlockFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		mUiView = new FoodMenuView(this);
+		mUiView = new FoodMenuView();
 
 		Bundle bundle = getArguments();
 		if (bundle != null)
@@ -91,7 +91,7 @@ public class FoodMenuFragment extends SherlockFragment
 		setHasOptionsMenu(true);
 
 		mUiModel.enable();
-		View view = mUiView.onEnabled(inflater);
+		View view = mUiView.onEnabled(inflater, this);
 		if (savedInstanceState != null)
 			mUiView.restoreState(savedInstanceState);
 

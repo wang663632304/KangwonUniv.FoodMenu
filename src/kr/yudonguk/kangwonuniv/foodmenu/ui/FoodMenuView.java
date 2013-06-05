@@ -36,7 +36,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuView extends UiView
+public class FoodMenuView extends UiView<FoodMenu>
 		implements OnClickListener, OnDateSetListener
 {
 	static final String CURRENT_PAGE = "CURRENT_PAGE";
@@ -49,11 +49,6 @@ public class FoodMenuView extends UiView
 	private PagerTitleStrip mPagerTitleStrip;
 	private DatePickerDialog mDatePickerDialog;
 
-	public FoodMenuView(UiPresenter<FoodMenu> presenter)
-	{
-		mPresenter = presenter;
-	}
-
 	@Override
 	public View getView()
 	{
@@ -61,9 +56,10 @@ public class FoodMenuView extends UiView
 	}
 
 	@Override
-	public View onEnabled(LayoutInflater inflater)
+	public View onEnabled(LayoutInflater inflater,
+			UiPresenter<FoodMenu> presenter)
 	{
-		if (mLayout == null)
+		if (mPresenter != presenter || mLayout == null)
 		{
 			mLayout = inflater.inflate(R.layout.fragment_food_menu, null);
 
@@ -71,7 +67,7 @@ public class FoodMenuView extends UiView
 			mPagerTitleStrip = (PagerTitleStrip) mLayout
 					.findViewById(R.id.pager_title_strip);
 
-			mPagerAdapter = new FoodMenuPagerAdapter(mPresenter);
+			mPagerAdapter = new FoodMenuPagerAdapter(mPresenter = presenter);
 			mViewPager.setAdapter(mPagerAdapter);
 			mPagerTitleStrip.setOnClickListener(this);
 
