@@ -13,6 +13,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -65,7 +66,9 @@ public class SettingsActivity extends PreferenceActivity
 		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
-		bindPreferenceSummaryToValue(findPreference("default_restaurant"));
+		PreferenceScreen preferenceScreen = getPreferenceScreen();
+		for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++)
+			bindPreferenceSummaryToValue(preferenceScreen.getPreference(i));
 	}
 
 	/** {@inheritDoc} */
@@ -183,7 +186,10 @@ public class SettingsActivity extends PreferenceActivity
 			// to their values. When their values change, their summaries are
 			// updated to reflect the new value, per the Android Design
 			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("default_restaurant"));
+
+			PreferenceScreen preferenceScreen = getPreferenceScreen();
+			for (int i = 0; i < preferenceScreen.getPreferenceCount(); i++)
+				bindPreferenceSummaryToValue(preferenceScreen.getPreference(i));
 		}
 	}
 }
