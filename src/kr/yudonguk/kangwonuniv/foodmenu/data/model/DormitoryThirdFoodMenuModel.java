@@ -2,17 +2,9 @@ package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuDormitoryFoodMenuParser;
-import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 
 public class DormitoryThirdFoodMenuModel extends KnuDormitoryFoodMenuModel
 {
-	final FoodMenuPresenter mPresenter;
-
-	public DormitoryThirdFoodMenuModel(FoodMenuPresenter presenter)
-	{
-		mPresenter = presenter;
-	}
-
 	@Override
 	public void update()
 	{}

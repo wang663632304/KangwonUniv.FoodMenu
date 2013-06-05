@@ -1,23 +1,32 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Random;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;
-import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.ui.UiData;
+import kr.yudonguk.ui.UiModel;
+import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UpdateResult;
 
-public class DummyFoodMenuModel implements FoodMenuModel
+public class DummyFoodMenuModel implements UiModel<FoodMenu>
 {
-	FoodMenuPresenter mPresenter;
+	UiPresenter<FoodMenu> mPresenter;
 
-	public DummyFoodMenuModel(FoodMenuPresenter presenter)
+	@Override
+	public boolean enable(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
+		return true;
 	}
+
+	@Override
+	public void disable()
+	{}
 
 	@Override
 	public void update()
@@ -70,7 +79,8 @@ public class DummyFoodMenuModel implements FoodMenuModel
 		try
 		{
 			Thread.sleep(random.nextInt(1000) + 200);
-		} catch (InterruptedException e)
+		}
+		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,7 +91,67 @@ public class DummyFoodMenuModel implements FoodMenuModel
 
 	@Override
 	public void setData(int id, FoodMenu data)
+	{}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> reverseIterator()
 	{
+		return reverseIterator(Integer.MAX_VALUE);
 	}
 
+	@Override
+	public Iterator<UiData<FoodMenu>> reverseIterator(final int startId)
+	{
+		return new Iterator<UiData<FoodMenu>>()
+		{
+			int mIndex = startId;
+
+			@Override
+			public void remove()
+			{}
+
+			@Override
+			public UiData<FoodMenu> next()
+			{
+				return new UiData<FoodMenu>(mIndex, getData(mIndex++));
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				return true;
+			}
+		};
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> iterator()
+	{
+		return iterator(Integer.MIN_VALUE);
+	}
+
+	@Override
+	public Iterator<UiData<FoodMenu>> iterator(final int startId)
+	{
+		return new Iterator<UiData<FoodMenu>>()
+		{
+			int mIndex = startId;
+
+			@Override
+			public void remove()
+			{}
+
+			@Override
+			public UiData<FoodMenu> next()
+			{
+				return new UiData<FoodMenu>(mIndex, getData(mIndex--));
+			}
+
+			@Override
+			public boolean hasNext()
+			{
+				return true;
+			}
+		};
+	}
 }
