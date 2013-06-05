@@ -3,15 +3,16 @@
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
 
+
     <!--
          NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-         dismiss it.
+         dismiss it.
     -->
     <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
     <ListPreference
+        android:defaultValue="kr.yudonguk.kangwonuniv.foodmenu.data.model.BaekRokFoodMenuModel"
         android:entries="@array/restaurant_list"
-        android:entryValues="@array/restaurant_list"
-        android:key="default_restaurant"
-        android:title="자주가는 식당" android:defaultValue="백록관"/>
-
+        android:entryValues="@array/restaurant_model_class_name"
+        android:key="@string/default_restaurant_key"
+        android:title="@string/default_restaurant" />
 </PreferenceScreen>

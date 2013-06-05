@@ -1,16 +1,10 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
-import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.BaekRokFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.BtlFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.CheonJiFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryFirstFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryThirdFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DummyFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.FoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.DataReceiver;
@@ -26,8 +20,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuFragment extends SherlockFragment implements
-		FoodMenuPresenter
+public class FoodMenuFragment extends SherlockFragment
+		implements FoodMenuPresenter
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
@@ -41,46 +35,25 @@ public class FoodMenuFragment extends SherlockFragment implements
 	{
 		mUiView = new FoodMenuView(this);
 
+		String modelClassName = null;
+
 		Bundle bundle = getArguments();
 		if (bundle != null)
 		{
-			String restaurantName = bundle.getString(ARG_RESTAURANT_NAME);
-
-			final String[] restaurantList = getResources().getStringArray(
-					R.array.restaurant_list);
-			int index = 0;
-			for (String restaurant : restaurantList)
-			{
-				if (restaurant.equals(restaurantName))
-					break;
-				index++;
-			}
-
-			switch (index)
-			{
-				case 0:
-					mUiModel = new BaekRokFoodMenuModel(this);
-					break;
-				case 1:
-					mUiModel = new CheonJiFoodMenuModel(this);
-					break;
-				case 2:
-					mUiModel = new TaeBaekFoodMenuModel(this);
-					break;
-				case 3:
-					mUiModel = new DormitoryFirstFoodMenuModel(this);
-					break;
-				case 4:
-					mUiModel = new DormitoryThirdFoodMenuModel(this);
-					break;
-				case 5:
-					mUiModel = new BtlFoodMenuModel(this);
-					break;
-			}
+			modelClassName = bundle.getString(ARG_RESTAURANT_NAME);
 		}
 
-		if (mUiModel == null)
+		modelClassName = modelClassName != null ? modelClassName
+				: BaekRokFoodMenuModel.class.getName();
+
+		try
 		{
+			mUiModel = (FoodMenuModel) Class.forName(modelClassName)
+					.newInstance();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 			mUiModel = new DummyFoodMenuModel(this);
 		}
 

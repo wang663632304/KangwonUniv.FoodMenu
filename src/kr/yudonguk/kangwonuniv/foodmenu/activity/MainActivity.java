@@ -1,5 +1,8 @@
 package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import kr.yudonguk.kangwonuniv.foodmenu.R;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,16 +17,15 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class MainActivity extends SherlockFragmentActivity implements
-		OnNavigationListener
+public class MainActivity extends SherlockFragmentActivity
+		implements OnNavigationListener
 {
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * current dropdown position.
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-
-	String[] mRestaurantNames = {};
+	private List<String> mModelClassNames = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -34,9 +36,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 		final SharedPreferences preferences = PreferenceManager
 				.getDefaultSharedPreferences(this);
 
-		mRestaurantNames = getResources().getStringArray(
-				R.array.restaurant_list);
-
 		// Set up the action bar to show a dropdown list.
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -45,21 +44,19 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
 				getActionBarThemedContextCompat(),
 				android.R.layout.simple_dropdown_item_1line,
-				android.R.id.text1, mRestaurantNames);
+				android.R.id.text1, getResources().getStringArray(
+						R.array.restaurant_list));
 
 		actionBar.setListNavigationCallbacks(arrayAdapter, this);
 
-		String defaultRestaurant = preferences.getString("default_restaurant",
-				mRestaurantNames[0]);
+		mModelClassNames = Arrays.asList(getResources().getStringArray(
+				R.array.restaurant_model_class_name));
 
-		int index = 0;
-		for (String restaurant : mRestaurantNames)
-		{
-			if (defaultRestaurant.equals(restaurant))
-				break;
-			index++;
-		}
-		actionBar.setSelectedNavigationItem(index);
+		int restaurantIndex = Math.max(0, mModelClassNames.indexOf(preferences
+				.getString(getString(R.string.default_restaurant_key),
+						mModelClassNames.get(0))));
+
+		actionBar.setSelectedNavigationItem(restaurantIndex);
 	}
 
 	/**
@@ -106,12 +103,11 @@ public class MainActivity extends SherlockFragmentActivity implements
 	@Override
 	public boolean onNavigationItemSelected(int position, long id)
 	{
-		// When the given dropdown item is selected, show its contents in the
-		// container view.
+		String modelClassName = mModelClassNames.get(position);
+
 		Fragment fragment = new FoodMenuFragment();
 		Bundle args = new Bundle();
-		args.putString(FoodMenuFragment.ARG_RESTAURANT_NAME,
-				mRestaurantNames[position]);
+		args.putString(FoodMenuFragment.ARG_RESTAURANT_NAME, modelClassName);
 		fragment.setArguments(args);
 
 		getSupportFragmentManager().beginTransaction()
