@@ -10,11 +10,11 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.model.CheonJiFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryFirstFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryThirdFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DummyFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.FoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
+import kr.yudonguk.ui.UiModel;
 import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UpdateResult;
 import android.content.Context;
@@ -34,7 +34,7 @@ public class FoodMenuFragment extends SherlockFragment
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
 	FoodMenuView mUiView;
-	FoodMenuModel mUiModel;
+	UiModel<FoodMenu> mUiModel;
 	AsyncDataReader<FoodMenu> mAsyncDataReader;
 
 	@Override

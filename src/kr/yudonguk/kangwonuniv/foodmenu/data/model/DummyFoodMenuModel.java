@@ -9,10 +9,11 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;
 import kr.yudonguk.ui.UiData;
+import kr.yudonguk.ui.UiModel;
 import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UpdateResult;
 
-public class DummyFoodMenuModel implements FoodMenuModel
+public class DummyFoodMenuModel implements UiModel<FoodMenu>
 {
 	UiPresenter<FoodMenu> mPresenter;
 
@@ -29,8 +30,7 @@ public class DummyFoodMenuModel implements FoodMenuModel
 
 	@Override
 	public void disable()
-	{
-	}
+	{}
 
 	@Override
 	public void update()
@@ -83,7 +83,8 @@ public class DummyFoodMenuModel implements FoodMenuModel
 		try
 		{
 			Thread.sleep(random.nextInt(1000) + 200);
-		} catch (InterruptedException e)
+		}
+		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,8 +95,7 @@ public class DummyFoodMenuModel implements FoodMenuModel
 
 	@Override
 	public void setData(int id, FoodMenu data)
-	{
-	}
+	{}
 
 	@Override
 	public Iterator<UiData<FoodMenu>> reverseIterator()
@@ -112,8 +112,7 @@ public class DummyFoodMenuModel implements FoodMenuModel
 
 			@Override
 			public void remove()
-			{
-			}
+			{}
 
 			@Override
 			public UiData<FoodMenu> next()
@@ -144,8 +143,7 @@ public class DummyFoodMenuModel implements FoodMenuModel
 
 			@Override
 			public void remove()
-			{
-			}
+			{}
 
 			@Override
 			public UiData<FoodMenu> next()

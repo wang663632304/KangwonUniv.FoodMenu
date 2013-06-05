@@ -12,9 +12,10 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.WeekFoodMenu.Week;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.FoodMenuParser;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuDormitoryFoodMenuParser;
 import kr.yudonguk.ui.UiData;
+import kr.yudonguk.ui.UiModel;
 import kr.yudonguk.util.calendar.CalendarUtil;
 
-public abstract class KnuDormitoryFoodMenuModel implements FoodMenuModel
+public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 {
 	private static final FoodMenuParser parser = new KnuDormitoryFoodMenuParser();
 	private WeekFoodMenu mWeekFoodMenu = null;
