@@ -11,6 +11,7 @@ import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.activity.SettingsActivity;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.ui.DataReceiver;
+import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UiView;
 import kr.yudonguk.ui.UpdateResult;
 import android.app.DatePickerDialog;
@@ -35,20 +36,20 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuView extends UiView implements OnClickListener,
-		OnDateSetListener
+public class FoodMenuView extends UiView
+		implements OnClickListener, OnDateSetListener
 {
 	static final String CURRENT_PAGE = "CURRENT_PAGE";
 
 	private PagerAdapter mPagerAdapter;
-	private FoodMenuPresenter mPresenter;
+	private UiPresenter<FoodMenu> mPresenter;
 
 	private View mLayout;
 	private ViewPager mViewPager;
 	private PagerTitleStrip mPagerTitleStrip;
 	private DatePickerDialog mDatePickerDialog;
 
-	public FoodMenuView(FoodMenuPresenter presenter)
+	public FoodMenuView(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
 	}
@@ -112,13 +113,11 @@ public class FoodMenuView extends UiView implements OnClickListener,
 
 	@Override
 	public void onDisabled()
-	{
-	}
+	{}
 
 	@Override
 	public void onError(UpdateResult result)
-	{
-	}
+	{}
 
 	@Override
 	public void update()
@@ -138,18 +137,18 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	{
 		switch (item.getItemId())
 		{
-			case R.id.menu_settings:
+		case R.id.menu_settings:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(context, SettingsActivity.class);
 				context.startActivity(intent);
 				return true;
 			}
-			case R.id.menu_refresh:
-				update();
-				return true;
+		case R.id.menu_refresh:
+			update();
+			return true;
 
-			case R.id.menu_today:
+		case R.id.menu_today:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(Calendar.HOUR_OF_DAY, 12);
@@ -159,8 +158,8 @@ public class FoodMenuView extends UiView implements OnClickListener,
 
 				mViewPager.setCurrentItem(itemIndex);
 			}
-				return true;
-			case R.id.menu_sharing:
+			return true;
+		case R.id.menu_sharing:
 			{
 				Context context = mLayout.getContext();
 				Intent intent = new Intent(Intent.ACTION_SEND);
@@ -178,7 +177,7 @@ public class FoodMenuView extends UiView implements OnClickListener,
 				context.startActivity(Intent.createChooser(intent,
 						context.getString(R.string.menu_sharing)));
 			}
-				return true;
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -188,7 +187,7 @@ public class FoodMenuView extends UiView implements OnClickListener,
 	{
 		switch (view.getId())
 		{
-			case R.id.pager_title_strip:
+		case R.id.pager_title_strip:
 			{
 				Calendar calendar = Calendar.getInstance();
 				calendar.setTimeInMillis(TimeUnit.DAYS.toMillis(mViewPager
@@ -241,9 +240,9 @@ class FoodMenuPagerAdapter extends PagerAdapter
 			"yyyy.MM.dd E", Locale.KOREAN);
 	private final ArrayList<View> mViewList = new ArrayList<View>();
 
-	private final FoodMenuPresenter mPresenter;
+	private final UiPresenter<FoodMenu> mPresenter;
 
-	public FoodMenuPagerAdapter(FoodMenuPresenter presenter)
+	public FoodMenuPagerAdapter(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
 	}

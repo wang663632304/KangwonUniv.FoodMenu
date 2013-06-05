@@ -2,13 +2,13 @@ package kr.yudonguk.kangwonuniv.foodmenu.data.model;
 
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.parser.KnuDormitoryFoodMenuParser;
-import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
+import kr.yudonguk.ui.UiPresenter;
 
 public class DormitoryThirdFoodMenuModel extends KnuDormitoryFoodMenuModel
 {
-	final FoodMenuPresenter mPresenter;
+	final UiPresenter<FoodMenu> mPresenter;
 
-	public DormitoryThirdFoodMenuModel(FoodMenuPresenter presenter)
+	public DormitoryThirdFoodMenuModel(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
 	}

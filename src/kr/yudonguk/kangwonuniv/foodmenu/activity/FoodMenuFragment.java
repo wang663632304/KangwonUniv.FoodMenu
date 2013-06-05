@@ -12,10 +12,10 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryThirdFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DummyFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.FoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
+import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UpdateResult;
 import android.content.Context;
 import android.os.Bundle;
@@ -28,8 +28,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuFragment extends SherlockFragment implements
-		FoodMenuPresenter
+public class FoodMenuFragment extends SherlockFragment
+		implements UiPresenter<FoodMenu>
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
@@ -60,24 +60,24 @@ public class FoodMenuFragment extends SherlockFragment implements
 
 			switch (index)
 			{
-				case 0:
-					mUiModel = new BaekRokFoodMenuModel(this);
-					break;
-				case 1:
-					mUiModel = new CheonJiFoodMenuModel(this);
-					break;
-				case 2:
-					mUiModel = new TaeBaekFoodMenuModel(this);
-					break;
-				case 3:
-					mUiModel = new DormitoryFirstFoodMenuModel(this);
-					break;
-				case 4:
-					mUiModel = new DormitoryThirdFoodMenuModel(this);
-					break;
-				case 5:
-					mUiModel = new BtlFoodMenuModel(this);
-					break;
+			case 0:
+				mUiModel = new BaekRokFoodMenuModel(this);
+				break;
+			case 1:
+				mUiModel = new CheonJiFoodMenuModel(this);
+				break;
+			case 2:
+				mUiModel = new TaeBaekFoodMenuModel(this);
+				break;
+			case 3:
+				mUiModel = new DormitoryFirstFoodMenuModel(this);
+				break;
+			case 4:
+				mUiModel = new DormitoryThirdFoodMenuModel(this);
+				break;
+			case 5:
+				mUiModel = new BtlFoodMenuModel(this);
+				break;
 			}
 		}
 
@@ -195,6 +195,7 @@ public class FoodMenuFragment extends SherlockFragment implements
 	@Override
 	public AsyncIterator<FoodMenu> reverseIterator(int startId)
 	{
-		return new AsyncIteratorImpl<FoodMenu>(mUiModel.reverseIterator(startId));
+		return new AsyncIteratorImpl<FoodMenu>(
+				mUiModel.reverseIterator(startId));
 	}
 }

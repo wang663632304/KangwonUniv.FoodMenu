@@ -8,15 +8,15 @@ import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Food;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.FoodGroup;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu.Section;
-import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuPresenter;
 import kr.yudonguk.ui.UiData;
+import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.ui.UpdateResult;
 
 public class DummyFoodMenuModel implements FoodMenuModel
 {
-	FoodMenuPresenter mPresenter;
+	UiPresenter<FoodMenu> mPresenter;
 
-	public DummyFoodMenuModel(FoodMenuPresenter presenter)
+	public DummyFoodMenuModel(UiPresenter<FoodMenu> presenter)
 	{
 		mPresenter = presenter;
 	}
