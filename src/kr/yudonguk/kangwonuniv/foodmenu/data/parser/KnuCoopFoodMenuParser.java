@@ -108,12 +108,19 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				continue;
 
 			String sectionName = tableCellItor.next();
-			sectionName = sectionName == null ? "" : sectionName.trim();
+			sectionName = sectionName == null ? "" : sectionName;
+			// 여러줄인 문자열을 한줄로 변경
+			sectionName = sectionName.replaceAll("[\\s]*\\r?\\n[\\s]*", " ")
+					.trim();
+
 			if (!tableCellItor.hasNext())
 				continue;
 
 			String foodGroupName = tableCellItor.next();
-			foodGroupName = foodGroupName == null ? "" : foodGroupName.trim();
+			foodGroupName = foodGroupName == null ? "" : foodGroupName;
+			// 여러줄인 문자열을 한줄로 변경
+			foodGroupName = foodGroupName
+					.replaceAll("[\\s]*\\r?\\n[\\s]*", " ").trim();
 
 			// 월~토까지의 식단을 작성하므로, 6개의 FoodMenu를 작성한다.
 			for (int i = Week.Monday.value; i <= Week.Saturday.value; i++)
@@ -133,8 +140,8 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				String rawFoodList = tableCellItor.next();
 				rawFoodList = rawFoodList == null ? "" : rawFoodList;
 
-				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
-						true))
+				for (String foodName : StringUtil.split(rawFoodList,
+						"\\r?\\n|,|/", true))
 				{
 					String name = removeJunk(foodName);
 					if (name.isEmpty())

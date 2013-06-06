@@ -147,8 +147,8 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 
 				String rawFoodList = tableCellItor.next();
 
-				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
-						true))
+				for (String foodName : StringUtil.split(rawFoodList,
+						"\\r?\\n|,|/", true))
 				{
 					String name = removeJunk(foodName);
 					if (name.isEmpty())
