@@ -1,6 +1,5 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data.parser;
 
-import android.annotation.SuppressLint;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -20,6 +19,8 @@ import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
+
+import android.annotation.SuppressLint;
 
 public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 {
@@ -46,14 +47,34 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 
 	public WeekFoodMenu parse(URL url) throws IOException
 	{
+		return parse(createHtmlCleaner().clean(url));
+	}
+
+	@Override
+	public WeekFoodMenu parse(String html)
+	{
+		try
+		{
+			return parse(createHtmlCleaner().clean(html));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private HtmlCleaner createHtmlCleaner()
+	{
 		CleanerProperties properties = new CleanerProperties();
 		properties.setUseCdataForScriptAndStyle(false);
 		properties.setOmitUnknownTags(true);
 		properties.setOmitComments(true);
 
-		HtmlCleaner cleaner = new HtmlCleaner(properties);
+		return new HtmlCleaner(properties);
+	}
 
-		TagNode node = cleaner.clean(url);
+	private WeekFoodMenu parse(TagNode node) throws IOException
+	{
 		if (node == null)
 			return null;
 

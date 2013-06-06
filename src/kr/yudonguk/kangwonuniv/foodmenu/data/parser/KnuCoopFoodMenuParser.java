@@ -22,14 +22,34 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 {
 	public WeekFoodMenu parse(URL url) throws IOException
 	{
+		return parse(createHtmlCleaner().clean(url));
+	}
+
+	@Override
+	public WeekFoodMenu parse(String html)
+	{
+		try
+		{
+			return parse(createHtmlCleaner().clean(html));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private HtmlCleaner createHtmlCleaner()
+	{
 		CleanerProperties properties = new CleanerProperties();
 		properties.setUseCdataForScriptAndStyle(false);
 		properties.setOmitUnknownTags(true);
 		properties.setOmitComments(true);
 
-		HtmlCleaner cleaner = new HtmlCleaner(properties);
+		return new HtmlCleaner(properties);
+	}
 
-		TagNode node = cleaner.clean(url);
+	public WeekFoodMenu parse(TagNode node) throws IOException
+	{
 		if (node == null)
 			return null;
 
