@@ -1,6 +1,7 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class WeekFoodMenu
@@ -50,6 +51,20 @@ public class WeekFoodMenu
 		{
 			foodMenus[i] = new FoodMenu();
 		}
+	}
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+
+		if (!(o instanceof WeekFoodMenu))
+			return false;
+
+		WeekFoodMenu rhs = (WeekFoodMenu) o;
+
+		return Arrays.equals(foodMenus, rhs.foodMenus);
 	}
 
 	public FoodMenu get(Week dayOfWeek)
