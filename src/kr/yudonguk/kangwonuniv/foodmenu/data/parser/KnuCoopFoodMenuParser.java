@@ -116,7 +116,7 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
 						true))
 				{
-					String name = StringUtil.removeBracket(foodName, -1).trim();
+					String name = removeJunk(foodName);
 					if (name.isEmpty())
 						continue;
 
@@ -142,5 +142,14 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				return section;
 		}
 		return null;
+	}
+
+	private String removeJunk(String foodName)
+	{
+		String result = StringUtil.removeBracket(foodName, -1);
+		// 식단표의 괄호 오타를 처리하기 위해서 짝이 맞는 괄호 외의 괄호를 제거한다.
+		result = result.replaceAll("\\(|\\)", "");
+
+		return result.trim();
 	}
 }

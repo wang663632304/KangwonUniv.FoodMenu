@@ -1,5 +1,6 @@
 package kr.yudonguk.kangwonuniv.foodmenu.data.parser;
 
+import android.annotation.SuppressLint;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -26,6 +27,7 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 	public static String THIRD_RESTAURANT_URL = "http://knudorm.kangwon.ac.kr/home/sub02/sub02_05_pirnt.jsp?mode=7301000&bil=3";
 	public static String BTL_URL = "http://knudorm.kangwon.ac.kr/home/sub02/sub02_05_pirnt.jsp?mode=7302000&bil=3";
 
+	@SuppressLint("SimpleDateFormat")
 	private static final DateFormat mDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd");
 
@@ -86,8 +88,7 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 					return parent.getParent();
 				}
 			}
-		}
-		catch (XPatherException e)
+		} catch (XPatherException e)
 		{
 			e.printStackTrace();
 		}
@@ -113,8 +114,8 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 			if (tableCellItor.hasNext())
 				tableCellItor.next(); // 첫 번째 열 제거
 
-			Section[] sections =
-			{ new Section("아침"), new Section("점심"), new Section("저녁") };
+			Section[] sections = { new Section("아침"), new Section("점심"),
+					new Section("저녁") };
 
 			for (Section section : sections)
 			{
@@ -128,7 +129,7 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
 						true))
 				{
-					String name = StringUtil.removeBracket(foodName, -1).trim();
+					String name = removeJunk(foodName);
 					if (name.isEmpty())
 						continue;
 
@@ -138,5 +139,14 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 		}
 
 		return result;
+	}
+
+	private String removeJunk(String foodName)
+	{
+		String result = StringUtil.removeBracket(foodName, -1);
+		// 식단표의 괄호 오타를 처리하기 위해서 짝이 맞는 괄호 외의 괄호를 제거한다.
+		result = result.replaceAll("\\(|\\)", "");
+
+		return result.trim();
 	}
 }
