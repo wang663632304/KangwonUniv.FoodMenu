@@ -22,8 +22,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuFragment extends SherlockFragment
-		implements UiPresenter<FoodMenu>
+public class FoodMenuFragment extends SherlockFragment implements
+		UiPresenter<FoodMenu>
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
@@ -53,8 +53,7 @@ public class FoodMenuFragment extends SherlockFragment
 		{
 			mUiModel = (UiModel<FoodMenu>) Class.forName(modelClassName)
 					.newInstance();
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 			mUiModel = new DummyFoodMenuModel();
@@ -70,14 +69,6 @@ public class FoodMenuFragment extends SherlockFragment
 			mUiView.restoreState(savedInstanceState);
 
 		return view;
-	}
-
-	@Override
-	public void onViewStateRestored(Bundle savedInstanceState)
-	{
-		super.onViewStateRestored(savedInstanceState);
-		if (savedInstanceState != null)
-			mUiView.restoreState(savedInstanceState);
 	}
 
 	@Override
