@@ -1,6 +1,6 @@
 package kr.yudonguk.ui;
 
-public interface AsyncIterator<Data>
+public interface AsyncIterator<Data, Identifier>
 {
 	interface Handler
 	{
@@ -11,5 +11,5 @@ public interface AsyncIterator<Data>
 
 	boolean hasNext();
 
-	Handler next(DataReceiver<Data> receiver);
+	Handler next(DataReceiver<Data, Identifier> receiver);
 }

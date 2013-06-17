@@ -8,63 +8,67 @@ import kr.yudonguk.ui.UiModel;
 import android.os.AsyncTask;
 import android.util.SparseArray;
 
-public class AsyncDataReader<Data> implements DataReadCompleteListener<Data>
+public class AsyncDataReader<Data, Identifier> implements
+		DataReadCompleteListener<Data, Identifier>
 {
-	private UiModel<Data> mModel;
-	private SparseArray<Queue<DataReaderAsyncTask<Data>>> mTaskQueueMap;
+	private UiModel<Data, Identifier> mModel;
+	private SparseArray<Queue<DataReaderAsyncTask<Data, Identifier>>> mTaskQueueMap;
 
-	public AsyncDataReader(UiModel<Data> model)
+	public AsyncDataReader(UiModel<Data, Identifier> model)
 	{
 		mModel = model;
-		mTaskQueueMap = new SparseArray<Queue<DataReaderAsyncTask<Data>>>();
+		mTaskQueueMap = new SparseArray<Queue<DataReaderAsyncTask<Data, Identifier>>>();
 	}
 
-	public void execute(int id, DataReceiver<Data> receiver)
+	public void execute(Identifier id, DataReceiver<Data, Identifier> receiver)
 	{
-		DataReaderAsyncTask<Data> task = new DataReaderAsyncTask<Data>(mModel,
-				id, receiver, this);
+		DataReaderAsyncTask<Data, Identifier> task = new DataReaderAsyncTask<Data, Identifier>(
+				mModel, id, receiver, this);
 		task.execute();
 
 		synchronized (mTaskQueueMap)
 		{
-			Queue<DataReaderAsyncTask<Data>> taskQueue = mTaskQueueMap.get(id);
+			Queue<DataReaderAsyncTask<Data, Identifier>> taskQueue = mTaskQueueMap
+					.get(id.hashCode());
 
 			if (taskQueue == null)
 			{
-				taskQueue = new LinkedList<DataReaderAsyncTask<Data>>();
-				mTaskQueueMap.put(id, taskQueue);
+				taskQueue = new LinkedList<DataReaderAsyncTask<Data, Identifier>>();
+				mTaskQueueMap.put(id.hashCode(), taskQueue);
 			}
 
 			taskQueue.add(task);
 		}
 	}
 
-	public void cancel(int id)
+	public void cancel(Identifier id)
 	{
 		synchronized (mTaskQueueMap)
 		{
-			Queue<DataReaderAsyncTask<Data>> taskQueue = mTaskQueueMap.get(id);
+			Queue<DataReaderAsyncTask<Data, Identifier>> taskQueue = mTaskQueueMap
+					.get(id.hashCode());
 
 			if (taskQueue == null)
 				return;
 
-			DataReaderAsyncTask<Data> task = taskQueue.poll();
+			DataReaderAsyncTask<Data, Identifier> task = taskQueue.poll();
 
 			if (task != null)
 				task.cancel(true);
 
 			if (taskQueue.isEmpty())
-				mTaskQueueMap.remove(id);
+				mTaskQueueMap.remove(id.hashCode());
 		}
 	}
 
 	@Override
-	public void onCompleted(DataReaderAsyncTask<Data> task)
+	public void onCompleted(DataReaderAsyncTask<Data, Identifier> task)
 	{
 		synchronized (mTaskQueueMap)
 		{
-			int id = task.getId();
-			Queue<DataReaderAsyncTask<Data>> taskQueue = mTaskQueueMap.get(id);
+			Identifier id = task.getId();
+			Queue<DataReaderAsyncTask<Data, Identifier>> taskQueue = mTaskQueueMap
+					.get(id.hashCode());
 
 			if (taskQueue == null)
 				return;
@@ -72,21 +76,22 @@ public class AsyncDataReader<Data> implements DataReadCompleteListener<Data>
 			taskQueue.remove(task);
 
 			if (taskQueue.isEmpty())
-				mTaskQueueMap.remove(id);
+				mTaskQueueMap.remove(id.hashCode());
 		}
 	}
 }
 
-class DataReaderAsyncTask<Data> extends AsyncTask<Void, Float, Data>
+class DataReaderAsyncTask<Data, Identifier> extends
+		AsyncTask<Void, Float, Data>
 {
-	private final UiModel<Data> mModel;
-	private final int mId;
-	private final DataReceiver<Data> mDataReceiver;
-	private final DataReadCompleteListener<Data> mCompleteListener;
+	private final UiModel<Data, Identifier> mModel;
+	private final Identifier mId;
+	private final DataReceiver<Data, Identifier> mDataReceiver;
+	private final DataReadCompleteListener<Data, Identifier> mCompleteListener;
 
-	public DataReaderAsyncTask(UiModel<Data> model, int id,
-			DataReceiver<Data> receiver,
-			DataReadCompleteListener<Data> completeListener)
+	public DataReaderAsyncTask(UiModel<Data, Identifier> model, Identifier id,
+			DataReceiver<Data, Identifier> receiver,
+			DataReadCompleteListener<Data, Identifier> completeListener)
 	{
 		mModel = model;
 		mId = id;
@@ -94,7 +99,7 @@ class DataReaderAsyncTask<Data> extends AsyncTask<Void, Float, Data>
 		mCompleteListener = completeListener;
 	}
 
-	public int getId()
+	public Identifier getId()
 	{
 		return mId;
 	}
@@ -126,7 +131,7 @@ class DataReaderAsyncTask<Data> extends AsyncTask<Void, Float, Data>
 	}
 }
 
-interface DataReadCompleteListener<Data>
+interface DataReadCompleteListener<Data, Identifier>
 {
-	void onCompleted(DataReaderAsyncTask<Data> task);
+	void onCompleted(DataReaderAsyncTask<Data, Identifier> task);
 }

@@ -10,12 +10,12 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public abstract class UiView<Data>
+public abstract class UiView<Data, Identifier>
 {
 	public abstract View getView();
 
 	public abstract View onEnabled(LayoutInflater inflater,
-			UiPresenter<Data> presenter);
+			UiPresenter<Data, Identifier> presenter);
 
 	public abstract void onDisabled();
 
@@ -39,7 +39,8 @@ public abstract class UiView<Data>
 
 	public void onCreateContextMenu(ContextMenu menu, MenuInflater inflater,
 			View view, ContextMenuInfo menuInfo)
-	{}
+	{
+	}
 
 	public boolean onContextItemSelected(MenuItem item)
 	{

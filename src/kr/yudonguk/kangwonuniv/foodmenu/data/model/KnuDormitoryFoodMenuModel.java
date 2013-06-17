@@ -16,24 +16,26 @@ import kr.yudonguk.ui.UiModel;
 import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.util.calendar.CalendarUtil;
 
-public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
+public abstract class KnuDormitoryFoodMenuModel implements
+		UiModel<FoodMenu, Integer>
 {
 	private static final FoodMenuParser parser = new KnuDormitoryFoodMenuParser();
 	private WeekFoodMenu mWeekFoodMenu = null;
 	private final Calendar mWeekFoodMenuCalendar = Calendar.getInstance();
 
 	@Override
-	public boolean enable(UiPresenter<FoodMenu> presenter)
+	public boolean enable(UiPresenter<FoodMenu, Integer> presenter)
 	{
 		return true;
 	}
 
 	@Override
 	public void disable()
-	{}
+	{
+	}
 
 	@Override
-	public FoodMenu getData(int id)
+	public FoodMenu getData(Integer id)
 	{
 		Calendar calendar = Calendar.getInstance();
 		calendar.clear();
@@ -72,13 +74,13 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> iterator()
+	public Iterator<UiData<FoodMenu, Integer>> iterator()
 	{
 		return iterator(Integer.MIN_VALUE);
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> iterator(final int startId)
+	public Iterator<UiData<FoodMenu, Integer>> iterator(final Integer startId)
 	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
@@ -87,7 +89,7 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 			CalendarUtil.getWeekBoundary(startDate, endDate,
 					mWeekFoodMenuCalendar, Calendar.MONDAY);
 
-			return new Iterator<UiData<FoodMenu>>()
+			return new Iterator<UiData<FoodMenu, Integer>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuDormitoryFoodMenuModel.this.mWeekFoodMenu;
 
@@ -96,10 +98,11 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{}
+				{
+				}
 
 				@Override
-				public UiData<FoodMenu> next()
+				public UiData<FoodMenu, Integer> next()
 				{
 					synchronized (startDate)
 					{
@@ -108,7 +111,7 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
-						return new UiData<FoodMenu>(id,
+						return new UiData<FoodMenu, Integer>(id,
 								mWeekFoodMenu.foodMenus[mIndex++]);
 					}
 				}
@@ -132,13 +135,14 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> reverseIterator()
+	public Iterator<UiData<FoodMenu, Integer>> reverseIterator()
 	{
 		return reverseIterator(Integer.MAX_VALUE);
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> reverseIterator(final int startId)
+	public Iterator<UiData<FoodMenu, Integer>> reverseIterator(
+			final Integer startId)
 	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
@@ -147,7 +151,7 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 			CalendarUtil.getWeekBoundary(startDate, endDate,
 					mWeekFoodMenuCalendar, Calendar.MONDAY);
 
-			return new Iterator<UiData<FoodMenu>>()
+			return new Iterator<UiData<FoodMenu, Integer>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuDormitoryFoodMenuModel.this.mWeekFoodMenu;
 
@@ -156,10 +160,11 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{}
+				{
+				}
 
 				@Override
-				public UiData<FoodMenu> next()
+				public UiData<FoodMenu, Integer> next()
 				{
 					synchronized (startDate)
 					{
@@ -168,7 +173,7 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
-						return new UiData<FoodMenu>(id,
+						return new UiData<FoodMenu, Integer>(id,
 								mWeekFoodMenu.foodMenus[mIndex--]);
 					}
 				}
@@ -206,13 +211,11 @@ public abstract class KnuDormitoryFoodMenuModel implements UiModel<FoodMenu>
 					getKnuDormitoryUrl(), startDate, endDate);
 			URL url = new URL(domitoryUrl);
 			weekFoodMenu = parser.parse(url);
-		}
-		catch (MalformedURLException e)
+		} catch (MalformedURLException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();

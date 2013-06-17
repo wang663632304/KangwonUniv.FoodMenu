@@ -16,24 +16,26 @@ import kr.yudonguk.ui.UiModel;
 import kr.yudonguk.ui.UiPresenter;
 import kr.yudonguk.util.calendar.CalendarUtil;
 
-public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
+public abstract class KnuCoopFoodMenuModel implements
+		UiModel<FoodMenu, Integer>
 {
 	private static final FoodMenuParser parser = new KnuCoopFoodMenuParser();
 	private WeekFoodMenu mWeekFoodMenu = null;
 	private final Calendar mWeekFoodMenuCalendar = Calendar.getInstance();
 
 	@Override
-	public boolean enable(UiPresenter<FoodMenu> presenter)
+	public boolean enable(UiPresenter<FoodMenu, Integer> presenter)
 	{
 		return true;
 	}
 
 	@Override
 	public void disable()
-	{}
+	{
+	}
 
 	@Override
-	public FoodMenu getData(int id)
+	public FoodMenu getData(Integer id)
 	{
 		if (mWeekFoodMenu == null)
 		{
@@ -69,13 +71,13 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> iterator()
+	public Iterator<UiData<FoodMenu, Integer>> iterator()
 	{
 		return iterator(Integer.MIN_VALUE);
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> iterator(final int startId)
+	public Iterator<UiData<FoodMenu, Integer>> iterator(final Integer startId)
 	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
@@ -84,7 +86,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 			CalendarUtil.getWeekBoundary(startDate, endDate,
 					mWeekFoodMenuCalendar, Calendar.MONDAY);
 
-			return new Iterator<UiData<FoodMenu>>()
+			return new Iterator<UiData<FoodMenu, Integer>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuCoopFoodMenuModel.this.mWeekFoodMenu;
 
@@ -93,10 +95,11 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{}
+				{
+				}
 
 				@Override
-				public UiData<FoodMenu> next()
+				public UiData<FoodMenu, Integer> next()
 				{
 					synchronized (startDate)
 					{
@@ -105,7 +108,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
-						return new UiData<FoodMenu>(id,
+						return new UiData<FoodMenu, Integer>(id,
 								mWeekFoodMenu.foodMenus[mIndex++]);
 					}
 				}
@@ -129,13 +132,14 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> reverseIterator()
+	public Iterator<UiData<FoodMenu, Integer>> reverseIterator()
 	{
 		return reverseIterator(Integer.MAX_VALUE);
 	}
 
 	@Override
-	public Iterator<UiData<FoodMenu>> reverseIterator(final int startId)
+	public Iterator<UiData<FoodMenu, Integer>> reverseIterator(
+			final Integer startId)
 	{
 		synchronized (mWeekFoodMenuCalendar)
 		{
@@ -144,7 +148,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 			CalendarUtil.getWeekBoundary(startDate, endDate,
 					mWeekFoodMenuCalendar, Calendar.MONDAY);
 
-			return new Iterator<UiData<FoodMenu>>()
+			return new Iterator<UiData<FoodMenu, Integer>>()
 			{
 				WeekFoodMenu mWeekFoodMenu = KnuCoopFoodMenuModel.this.mWeekFoodMenu;
 
@@ -153,10 +157,11 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 				@Override
 				public void remove()
-				{}
+				{
+				}
 
 				@Override
-				public UiData<FoodMenu> next()
+				public UiData<FoodMenu, Integer> next()
 				{
 					synchronized (startDate)
 					{
@@ -165,7 +170,7 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 
 						int id = startDate.get(Calendar.DAY_OF_MONTH) + mIndex;
 
-						return new UiData<FoodMenu>(id,
+						return new UiData<FoodMenu, Integer>(id,
 								mWeekFoodMenu.foodMenus[mIndex--]);
 					}
 				}
@@ -195,12 +200,10 @@ public abstract class KnuCoopFoodMenuModel implements UiModel<FoodMenu>
 		{
 			URL url = new URL(getKnuCoopUrl());
 			weekFoodMenu = parser.parse(url);
-		}
-		catch (MalformedURLException e)
+		} catch (MalformedURLException e)
 		{
 			e.printStackTrace();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}

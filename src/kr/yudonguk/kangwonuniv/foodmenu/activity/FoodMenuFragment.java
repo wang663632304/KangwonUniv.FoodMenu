@@ -23,13 +23,13 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class FoodMenuFragment extends SherlockFragment implements
-		UiPresenter<FoodMenu>
+		UiPresenter<FoodMenu, Integer>
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
 	FoodMenuView mUiView;
-	UiModel<FoodMenu> mUiModel;
-	AsyncDataReader<FoodMenu> mAsyncDataReader;
+	UiModel<FoodMenu, Integer> mUiModel;
+	AsyncDataReader<FoodMenu, Integer> mAsyncDataReader;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -51,15 +51,15 @@ public class FoodMenuFragment extends SherlockFragment implements
 
 		try
 		{
-			mUiModel = (UiModel<FoodMenu>) Class.forName(modelClassName)
-					.newInstance();
+			mUiModel = (UiModel<FoodMenu, Integer>) Class.forName(
+					modelClassName).newInstance();
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 			mUiModel = new DummyFoodMenuModel();
 		}
 
-		mAsyncDataReader = new AsyncDataReader<FoodMenu>(mUiModel);
+		mAsyncDataReader = new AsyncDataReader<FoodMenu, Integer>(mUiModel);
 
 		setHasOptionsMenu(true);
 
@@ -116,19 +116,20 @@ public class FoodMenuFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public void getData(final int id, final DataReceiver<FoodMenu> receiver)
+	public void getData(final Integer id,
+			final DataReceiver<FoodMenu, Integer> receiver)
 	{
 		mAsyncDataReader.execute(id, receiver);
 	}
 
 	@Override
-	public void cancelGetting(int id)
+	public void cancelGetting(Integer id)
 	{
 		mAsyncDataReader.cancel(id);
 	}
 
 	@Override
-	public void setData(int id, FoodMenu data)
+	public void setData(Integer id, FoodMenu data)
 	{
 		mUiModel.setData(id, data);
 	}
@@ -140,27 +141,29 @@ public class FoodMenuFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public AsyncIterator<FoodMenu> iterator()
+	public AsyncIterator<FoodMenu, Integer> iterator()
 	{
-		return new AsyncIteratorImpl<FoodMenu>(mUiModel.iterator());
+		return new AsyncIteratorImpl<FoodMenu, Integer>(mUiModel.iterator());
 	}
 
 	@Override
-	public AsyncIterator<FoodMenu> reverseIterator()
+	public AsyncIterator<FoodMenu, Integer> reverseIterator()
 	{
-		return new AsyncIteratorImpl<FoodMenu>(mUiModel.reverseIterator());
+		return new AsyncIteratorImpl<FoodMenu, Integer>(
+				mUiModel.reverseIterator());
 	}
 
 	@Override
-	public AsyncIterator<FoodMenu> iterator(int startId)
+	public AsyncIterator<FoodMenu, Integer> iterator(Integer startId)
 	{
-		return new AsyncIteratorImpl<FoodMenu>(mUiModel.iterator(startId));
+		return new AsyncIteratorImpl<FoodMenu, Integer>(
+				mUiModel.iterator(startId));
 	}
 
 	@Override
-	public AsyncIterator<FoodMenu> reverseIterator(int startId)
+	public AsyncIterator<FoodMenu, Integer> reverseIterator(Integer startId)
 	{
-		return new AsyncIteratorImpl<FoodMenu>(
+		return new AsyncIteratorImpl<FoodMenu, Integer>(
 				mUiModel.reverseIterator(startId));
 	}
 }

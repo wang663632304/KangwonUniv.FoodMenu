@@ -1,11 +1,11 @@
 package kr.yudonguk.ui;
 
-public class UiData<T>
+public class UiData<Data, Identifier>
 {
-	public int id;
-	public T data;
+	public final Identifier id;
+	public final Data data;
 
-	public UiData(int id_, T data_)
+	public UiData(Identifier id_, Data data_)
 	{
 		id = id_;
 		data = data_;

@@ -2,23 +2,23 @@ package kr.yudonguk.ui;
 
 import android.content.Context;
 
-public interface UiPresenter<Data>
+public interface UiPresenter<Data, Identifier>
 {
 	Context getContext();
 
 	void onModelUpdated(UpdateResult result);
 
-	void getData(int id, DataReceiver<Data> receiver);
+	void getData(Identifier id, DataReceiver<Data, Identifier> receiver);
 
-	AsyncIterator<Data> iterator();
+	AsyncIterator<Data, Identifier> iterator();
 
-	AsyncIterator<Data> iterator(int startId);
+	AsyncIterator<Data, Identifier> iterator(Identifier startId);
 
-	AsyncIterator<Data> reverseIterator();
+	AsyncIterator<Data, Identifier> reverseIterator();
 
-	AsyncIterator<Data> reverseIterator(int startId);
+	AsyncIterator<Data, Identifier> reverseIterator(Identifier startId);
 
-	void cancelGetting(int id);
+	void cancelGetting(Identifier id);
 
-	void setData(int id, Data data);
+	void setData(Identifier id, Data data);
 }

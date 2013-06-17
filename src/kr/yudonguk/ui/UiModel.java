@@ -2,21 +2,22 @@ package kr.yudonguk.ui;
 
 import java.util.Iterator;
 
-public interface UiModel<Data> extends Iterable<UiData<Data>>
+public interface UiModel<Data, Identifier> extends
+		Iterable<UiData<Data, Identifier>>
 {
-	boolean enable(UiPresenter<Data> presenter);
+	boolean enable(UiPresenter<Data, Identifier> presenter);
 
 	void disable();
 
 	void update();
 
-	Data getData(int id);
+	Data getData(Identifier id);
 
-	void setData(int id, Data data);
+	void setData(Identifier id, Data data);
 
-	Iterator<UiData<Data>> iterator(int startId);
+	Iterator<UiData<Data, Identifier>> iterator(Identifier startId);
 
-	Iterator<UiData<Data>> reverseIterator();
+	Iterator<UiData<Data, Identifier>> reverseIterator();
 
-	Iterator<UiData<Data>> reverseIterator(int startId);
+	Iterator<UiData<Data, Identifier>> reverseIterator(Identifier startId);
 }

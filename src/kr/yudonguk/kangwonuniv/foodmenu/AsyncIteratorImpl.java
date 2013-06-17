@@ -7,11 +7,12 @@ import kr.yudonguk.ui.DataReceiver;
 import kr.yudonguk.ui.UiData;
 import android.os.AsyncTask;
 
-public class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
+public class AsyncIteratorImpl<Data, Identifier> implements
+		AsyncIterator<Data, Identifier>
 {
-	private Iterator<UiData<Data>> mIterator;
+	private Iterator<UiData<Data, Identifier>> mIterator;
 
-	public AsyncIteratorImpl(Iterator<UiData<Data>> iterator)
+	public AsyncIteratorImpl(Iterator<UiData<Data, Identifier>> iterator)
 	{
 		mIterator = iterator;
 	}
@@ -23,37 +24,38 @@ public class AsyncIteratorImpl<Data> implements AsyncIterator<Data>
 	}
 
 	@Override
-	public AsyncIterator.Handler next(final DataReceiver<Data> receiver)
+	public AsyncIterator.Handler next(
+			final DataReceiver<Data, Identifier> receiver)
 	{
 		if (!mIterator.hasNext())
 			return null;
 
-		final AsyncTask<Void, Float, UiData<Data>> task = new AsyncTask<Void, Float, UiData<Data>>()
+		final AsyncTask<Void, Float, UiData<Data, Identifier>> task = new AsyncTask<Void, Float, UiData<Data, Identifier>>()
 		{
 			@Override
-			protected UiData<Data> doInBackground(Void... params)
+			protected UiData<Data, Identifier> doInBackground(Void... params)
 			{
 				return mIterator.next();
 			}
 
-			protected void onPostExecute(UiData<Data> result)
+			protected void onPostExecute(UiData<Data, Identifier> result)
 			{
 				receiver.onReceived(result.id, result.data);
 			}
 
-			protected void onCancelled(UiData<Data> result)
+			protected void onCancelled(UiData<Data, Identifier> result)
 			{
-				// 현재는 id를 알수 없어서 -1 처리하지만
+				// 현재는 id를 알수 없어서 null 처리하지만
 				// 이런 방법은 문제를 야기할 것이다.
-				receiver.onReceived(-1, null);
+				receiver.onReceived(null, null);
 			}
 
 			@Override
 			protected void onProgressUpdate(Float... values)
 			{
-				// 현재는 id를 알수 없어서 -1 처리하지만
+				// 현재는 id를 알수 없어서 null 처리하지만
 				// 이런 방법은 문제를 야기할 것이다.
-				receiver.onProgressed(-1, values[0]);
+				receiver.onProgressed(null, values[0]);
 			}
 		};
 		task.execute();

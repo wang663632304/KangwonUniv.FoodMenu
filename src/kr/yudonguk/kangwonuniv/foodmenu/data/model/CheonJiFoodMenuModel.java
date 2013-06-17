@@ -10,7 +10,7 @@ public class CheonJiFoodMenuModel extends KnuCoopFoodMenuModel
 	}
 
 	@Override
-	public void setData(int id, FoodMenu data)
+	public void setData(Integer id, FoodMenu data)
 	{
 	}
 

@@ -6,11 +6,13 @@ public class TaeBaekFoodMenuModel extends KnuCoopFoodMenuModel
 {
 	@Override
 	public void update()
-	{}
+	{
+	}
 
 	@Override
-	public void setData(int id, FoodMenu data)
-	{}
+	public void setData(Integer id, FoodMenu data)
+	{
+	}
 
 	@Override
 	public String getKnuCoopUrl()
