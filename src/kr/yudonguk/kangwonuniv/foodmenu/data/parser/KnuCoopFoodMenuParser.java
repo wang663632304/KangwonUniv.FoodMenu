@@ -22,14 +22,34 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 {
 	public WeekFoodMenu parse(URL url) throws IOException
 	{
+		return parse(createHtmlCleaner().clean(url));
+	}
+
+	@Override
+	public WeekFoodMenu parse(String html)
+	{
+		try
+		{
+			return parse(createHtmlCleaner().clean(html));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private HtmlCleaner createHtmlCleaner()
+	{
 		CleanerProperties properties = new CleanerProperties();
 		properties.setUseCdataForScriptAndStyle(false);
 		properties.setOmitUnknownTags(true);
 		properties.setOmitComments(true);
 
-		HtmlCleaner cleaner = new HtmlCleaner(properties);
+		return new HtmlCleaner(properties);
+	}
 
-		TagNode node = cleaner.clean(url);
+	public WeekFoodMenu parse(TagNode node) throws IOException
+	{
 		if (node == null)
 			return null;
 
@@ -88,12 +108,19 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				continue;
 
 			String sectionName = tableCellItor.next();
-			sectionName = sectionName == null ? "" : sectionName.trim();
+			sectionName = sectionName == null ? "" : sectionName;
+			// 여러줄인 문자열을 한줄로 변경
+			sectionName = sectionName.replaceAll("[\\s]*\\r?\\n[\\s]*", " ")
+					.trim();
+
 			if (!tableCellItor.hasNext())
 				continue;
 
 			String foodGroupName = tableCellItor.next();
-			foodGroupName = foodGroupName == null ? "" : foodGroupName.trim();
+			foodGroupName = foodGroupName == null ? "" : foodGroupName;
+			// 여러줄인 문자열을 한줄로 변경
+			foodGroupName = foodGroupName
+					.replaceAll("[\\s]*\\r?\\n[\\s]*", " ").trim();
 
 			// 월~토까지의 식단을 작성하므로, 6개의 FoodMenu를 작성한다.
 			for (int i = Week.Monday.value; i <= Week.Saturday.value; i++)
@@ -113,10 +140,10 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				String rawFoodList = tableCellItor.next();
 				rawFoodList = rawFoodList == null ? "" : rawFoodList;
 
-				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
-						true))
+				for (String foodName : StringUtil.split(rawFoodList,
+						"\\r?\\n|,|/", true))
 				{
-					String name = StringUtil.removeBracket(foodName, -1).trim();
+					String name = removeJunk(foodName);
 					if (name.isEmpty())
 						continue;
 
@@ -142,5 +169,14 @@ public class KnuCoopFoodMenuParser implements FoodMenuParser
 				return section;
 		}
 		return null;
+	}
+
+	private String removeJunk(String foodName)
+	{
+		String result = StringUtil.removeBracket(foodName, -1);
+		// 식단표의 괄호 오타를 처리하기 위해서 짝이 맞는 괄호 외의 괄호를 제거한다.
+		result = result.replaceAll("\\(|\\)", "");
+
+		return result.trim();
 	}
 }

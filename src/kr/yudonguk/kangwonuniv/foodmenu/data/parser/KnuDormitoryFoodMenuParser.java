@@ -20,12 +20,15 @@ import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.XPatherException;
 
+import android.annotation.SuppressLint;
+
 public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 {
 	public static String FIRST_RESTAURANT_URL = "http://knudorm.kangwon.ac.kr/home/sub02/sub02_05_pirnt.jsp?mode=7301000&bil=1";
 	public static String THIRD_RESTAURANT_URL = "http://knudorm.kangwon.ac.kr/home/sub02/sub02_05_pirnt.jsp?mode=7301000&bil=3";
 	public static String BTL_URL = "http://knudorm.kangwon.ac.kr/home/sub02/sub02_05_pirnt.jsp?mode=7302000&bil=3";
 
+	@SuppressLint("SimpleDateFormat")
 	private static final DateFormat mDateFormat = new SimpleDateFormat(
 			"yyyy-MM-dd");
 
@@ -44,14 +47,34 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 
 	public WeekFoodMenu parse(URL url) throws IOException
 	{
+		return parse(createHtmlCleaner().clean(url));
+	}
+
+	@Override
+	public WeekFoodMenu parse(String html)
+	{
+		try
+		{
+			return parse(createHtmlCleaner().clean(html));
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	private HtmlCleaner createHtmlCleaner()
+	{
 		CleanerProperties properties = new CleanerProperties();
 		properties.setUseCdataForScriptAndStyle(false);
 		properties.setOmitUnknownTags(true);
 		properties.setOmitComments(true);
 
-		HtmlCleaner cleaner = new HtmlCleaner(properties);
+		return new HtmlCleaner(properties);
+	}
 
-		TagNode node = cleaner.clean(url);
+	private WeekFoodMenu parse(TagNode node) throws IOException
+	{
 		if (node == null)
 			return null;
 
@@ -86,8 +109,7 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 					return parent.getParent();
 				}
 			}
-		}
-		catch (XPatherException e)
+		} catch (XPatherException e)
 		{
 			e.printStackTrace();
 		}
@@ -113,8 +135,8 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 			if (tableCellItor.hasNext())
 				tableCellItor.next(); // 첫 번째 열 제거
 
-			Section[] sections =
-			{ new Section("아침"), new Section("점심"), new Section("저녁") };
+			Section[] sections = { new Section("아침"), new Section("점심"),
+					new Section("저녁") };
 
 			for (Section section : sections)
 			{
@@ -125,10 +147,10 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 
 				String rawFoodList = tableCellItor.next();
 
-				for (String foodName : StringUtil.split(rawFoodList, "\\r?\\n",
-						true))
+				for (String foodName : StringUtil.split(rawFoodList,
+						"\\r?\\n|,|/", true))
 				{
-					String name = StringUtil.removeBracket(foodName, -1).trim();
+					String name = removeJunk(foodName);
 					if (name.isEmpty())
 						continue;
 
@@ -138,5 +160,14 @@ public class KnuDormitoryFoodMenuParser implements FoodMenuParser
 		}
 
 		return result;
+	}
+
+	private String removeJunk(String foodName)
+	{
+		String result = StringUtil.removeBracket(foodName, -1);
+		// 식단표의 괄호 오타를 처리하기 위해서 짝이 맞는 괄호 외의 괄호를 제거한다.
+		result = result.replaceAll("\\(|\\)", "");
+
+		return result.trim();
 	}
 }

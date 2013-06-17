@@ -1,6 +1,8 @@
 package kr.yudonguk.util;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil
 {
@@ -38,12 +40,13 @@ public class StringUtil
 		if (depth < 0)
 			depth = Integer.MAX_VALUE;
 
-		String bracketRegex = "\\([^\\(]*\\)";
+		final Pattern pattern = Pattern.compile("\\([^\\(\\)]*\\)");
+		Matcher matcher = null;
 
-		String result = input.replace(bracketRegex, "");
-		for (int i = 0; i < depth && result.matches(bracketRegex); i++)
+		String result = input;
+		for (int i = 0; i < depth && (matcher = pattern.matcher(result)).find(); i++)
 		{
-			result = result.replace(bracketRegex, "");
+			result = matcher.replaceAll("");
 		}
 
 		return result;

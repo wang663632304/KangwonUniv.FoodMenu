@@ -3,6 +3,7 @@ package kr.yudonguk.kangwonuniv.foodmenu.data;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 public class FoodMenu implements Serializable
@@ -32,6 +33,20 @@ public class FoodMenu implements Serializable
 			rate = rate_;
 		}
 
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o)
+				return true;
+
+			if (!(o instanceof Food))
+				return false;
+
+			Food rhs = (Food) o;
+
+			return name.equals(rhs.name) && rate == rhs.rate;
+		}
+
 		public boolean isGroup()
 		{
 			return false;
@@ -42,7 +57,7 @@ public class FoodMenu implements Serializable
 	{
 		private static final long serialVersionUID = 2273778400758717991L;
 
-		public final ArrayList<Food> foods = new ArrayList<Food>();
+		public final List<Food> foods = new ArrayList<Food>();
 
 		public FoodGroup()
 		{
@@ -52,6 +67,20 @@ public class FoodMenu implements Serializable
 		public FoodGroup(String name)
 		{
 			super(name);
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o)
+				return true;
+
+			if (!(o instanceof FoodGroup))
+				return false;
+
+			FoodGroup rhs = (FoodGroup) o;
+
+			return super.equals(o) && foods.equals(rhs.foods);
 		}
 
 		@Override
@@ -80,13 +109,13 @@ public class FoodMenu implements Serializable
 	{
 		private static final long serialVersionUID = -1056979296710076797L;
 
+		private static final TimeZone DEFAULT_TIME_ZONE = TimeZone
+				.getTimeZone("Asia/Seoul");
+
 		public String name;
 		public final Calendar startTime = Calendar.getInstance();
 		public final Calendar endTime = Calendar.getInstance();
-		public final ArrayList<Food> foods = new ArrayList<FoodMenu.Food>();
-
-		private static final TimeZone DEFAULT_TIME_ZONE = TimeZone
-				.getTimeZone("Asia/Seoul");
+		public final List<Food> foods = new ArrayList<FoodMenu.Food>();
 
 		public Section()
 		{
@@ -98,6 +127,21 @@ public class FoodMenu implements Serializable
 			name = name_;
 			setStartTime(0, 0);
 			setEndTime(0, 0);
+		}
+
+		@Override
+		public boolean equals(Object o)
+		{
+			if (this == o)
+				return true;
+
+			if (!(o instanceof Section))
+				return false;
+
+			Section rhs = (Section) o;
+
+			return name.equals(rhs.name) && startTime.equals(rhs.startTime)
+					&& endTime.equals(rhs.endTime) && foods.equals(rhs.foods);
 		}
 
 		public void add(Food food)
@@ -130,7 +174,21 @@ public class FoodMenu implements Serializable
 		}
 	}
 
-	public final ArrayList<Section> sections = new ArrayList<FoodMenu.Section>();
+	public final List<Section> sections = new ArrayList<FoodMenu.Section>();
+
+	@Override
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+
+		if (!(o instanceof FoodMenu))
+			return false;
+
+		FoodMenu rhs = (FoodMenu) o;
+
+		return sections.equals(rhs.sections);
+	}
 
 	public void add(Section section)
 	{

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.htmlcleaner.TagNode;
 
 public class Table implements Iterable<List<String>>
@@ -39,7 +40,8 @@ public class Table implements Iterable<List<String>>
 				{
 				}
 
-				String value = tableCell.getText().toString().trim();
+				String value = StringEscapeUtils.unescapeHtml4(tableCell
+						.getText().toString());
 				String colspan = tableCell.getAttributeByName("colspan");
 				String rowspan = tableCell.getAttributeByName("rowspan");
 

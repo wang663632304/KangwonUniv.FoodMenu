@@ -2,15 +2,9 @@ package kr.yudonguk.kangwonuniv.foodmenu.activity;
 
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncDataReader;
 import kr.yudonguk.kangwonuniv.foodmenu.AsyncIteratorImpl;
-import kr.yudonguk.kangwonuniv.foodmenu.R;
 import kr.yudonguk.kangwonuniv.foodmenu.data.FoodMenu;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.BaekRokFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.BtlFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.CheonJiFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryFirstFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.DormitoryThirdFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.data.model.DummyFoodMenuModel;
-import kr.yudonguk.kangwonuniv.foodmenu.data.model.TaeBaekFoodMenuModel;
 import kr.yudonguk.kangwonuniv.foodmenu.ui.FoodMenuView;
 import kr.yudonguk.ui.AsyncIterator;
 import kr.yudonguk.ui.DataReceiver;
@@ -28,8 +22,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class FoodMenuFragment extends SherlockFragment
-		implements UiPresenter<FoodMenu>
+public class FoodMenuFragment extends SherlockFragment implements
+		UiPresenter<FoodMenu>
 {
 	public static final String ARG_RESTAURANT_NAME = "restaurant_name";
 
@@ -37,52 +31,31 @@ public class FoodMenuFragment extends SherlockFragment
 	UiModel<FoodMenu> mUiModel;
 	AsyncDataReader<FoodMenu> mAsyncDataReader;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
 		mUiView = new FoodMenuView();
 
+		String modelClassName = null;
+
 		Bundle bundle = getArguments();
 		if (bundle != null)
 		{
-			String restaurantName = bundle.getString(ARG_RESTAURANT_NAME);
-
-			final String[] restaurantList = getResources().getStringArray(
-					R.array.restaurant_list);
-			int index = 0;
-			for (String restaurant : restaurantList)
-			{
-				if (restaurant.equals(restaurantName))
-					break;
-				index++;
-			}
-
-			switch (index)
-			{
-			case 0:
-				mUiModel = new BaekRokFoodMenuModel();
-				break;
-			case 1:
-				mUiModel = new CheonJiFoodMenuModel();
-				break;
-			case 2:
-				mUiModel = new TaeBaekFoodMenuModel();
-				break;
-			case 3:
-				mUiModel = new DormitoryFirstFoodMenuModel();
-				break;
-			case 4:
-				mUiModel = new DormitoryThirdFoodMenuModel();
-				break;
-			case 5:
-				mUiModel = new BtlFoodMenuModel();
-				break;
-			}
+			modelClassName = bundle.getString(ARG_RESTAURANT_NAME);
 		}
 
-		if (mUiModel == null)
+		modelClassName = modelClassName != null ? modelClassName
+				: BaekRokFoodMenuModel.class.getName();
+
+		try
 		{
+			mUiModel = (UiModel<FoodMenu>) Class.forName(modelClassName)
+					.newInstance();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
 			mUiModel = new DummyFoodMenuModel();
 		}
 
@@ -96,14 +69,6 @@ public class FoodMenuFragment extends SherlockFragment
 			mUiView.restoreState(savedInstanceState);
 
 		return view;
-	}
-
-	@Override
-	public void onViewStateRestored(Bundle savedInstanceState)
-	{
-		super.onViewStateRestored(savedInstanceState);
-		if (savedInstanceState != null)
-			mUiView.restoreState(savedInstanceState);
 	}
 
 	@Override
